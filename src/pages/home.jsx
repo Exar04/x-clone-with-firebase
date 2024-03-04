@@ -4,16 +4,32 @@ export function Home() {
     const [wok, setwok] = useState(false)
     return (
         <div className="h-screen w-screen flex">
-            <div className="w-72 flex-none bg-slate-700 h-screen flex flex-col">{/*SideBar*/}
+            <div className="md:w-72 w-0 flex-none bg-slate-700 h-screen flex flex-col">{/*SideBar*/}
                 <div className=" text-3xl text-white font-bold font-serif m-4 flex-none">Logo</div>
                 <div className=" bg-yellow-400 flex-grow overflow-scroll">
                     <div className="p-3 m-2 text-xl text-white bg-blue-400 rounded-full text-center">Home</div>
                     <div className="p-3 m-2 text-xl text-white bg-blue-400 rounded-full text-center">Message</div>
                 </div>
-                <div className="bg-black h-24 flex-none"> hehe</div>
+                <div className="bg-black h-24 flex-none">HEHE</div>
             </div>
-            <div className=" bg-green-800 h-screen w-full">{/*homepage*/}
+            <div className=" bg-green-800 h-screen w-full overflow-scroll">{/*homepage*/}
+                <div className="flex lg:flex-row flex-col">
+                    <div className="m-3 p-5 bg-gray-500 rounded-2xl h-72 lg:basis-4/6">Page</div>
+                    <div className="m-3 p-5 bg-gray-500 rounded-2xl h-72 lg:basis-2/6">Page</div>
+                </div>
+            </div>
+        </div>
+    )
+}
 
+function Sidebar() {
+    return (
+        <div className="w-72 flex-none bg-slate-700 h-screen">{/*SideBar*/}
+            <div className=" text-3xl text-white font-bold font-serif m-4">Logo</div>
+            <div className=" bg-yellow-400 " id="contentdata">
+                <div>Home</div>
+                <div>Messages</div>
+                <div>Profile</div>
             </div>
         </div>
     )
