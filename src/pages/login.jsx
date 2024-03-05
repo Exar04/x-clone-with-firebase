@@ -1,18 +1,22 @@
+import { useState } from "react";
+
 export function Login() {
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const login = async() => {}
   return (
     <div>
       <div className=" flex justify-center items-center w-screen h-screen bg-slate-100">
-        <div className=" w-1/3 h-4/6 min-w-80 bg-white rounded-2xl p-4 border-2">
+        <div className=" w-1/3  min-h-fit min-w-80 bg-white rounded-2xl p-4 border-2">
 
           <div className="text-3xl text-center my-4">Login</div>
 
           <div className="m-4 w-auto text-center">
             <input className=" mt-0 w-full h-12 border-2 rounded-md my-8 text-center text-xl" placeholder="Username" />
-
             <input className="w-full h-12 border-2 rounded-md mb-8 text-center text-xl" placeholder="Password"/>
-
-
-          <div className=" bg-violet-600 h-12 rounded-lg text-center text-white font-bolt text-xl p-2">Sign In</div>
+          <div className=" bg-violet-600 h-12 rounded-lg text-center text-white font-bolt text-xl p-2">LogIn</div>
 
           </div>
 

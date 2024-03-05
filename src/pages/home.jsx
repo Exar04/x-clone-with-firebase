@@ -12,10 +12,10 @@ export function Home() {
                 </div>
                 <div className="bg-black h-24 flex-none">HEHE</div>
             </div>
-            <div className=" bg-green-800 h-screen w-full overflow-scroll">{/*homepage*/}
+            <div className="h-screen w-full overflow-scroll">{/*homepage*/}
                 <div className="flex lg:flex-row flex-col">
-                    <div className="m-3 p-5 bg-gray-500 rounded-2xl h-72 lg:basis-4/6">Page</div>
-                    <div className="m-3 p-5 bg-gray-500 rounded-2xl h-72 lg:basis-2/6">Page</div>
+                    <div className="bg-gray-500 h-screen lg:basis-4/6">Page</div>
+                    <div className="bg-gray-800 h-72 lg:basis-2/6">Page</div>
                 </div>
             </div>
         </div>
