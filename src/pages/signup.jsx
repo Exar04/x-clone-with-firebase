@@ -61,7 +61,7 @@ export function SignIn() {
           </div>
           <hr class="h-px mt-4 mb-4 bg-gray-200 border-0 dark:bg-gray-700" />
 
-          <div className=" text-l text-center text-slate-500">Create A New Account!</div>
+          <div className=" text-l text-center text-slate-500">Already have an Account!</div>
         </div>
       </div>
     </div>
