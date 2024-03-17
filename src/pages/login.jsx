@@ -6,6 +6,10 @@ export function Login() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+
 
   const { login } = useAuth()
 
@@ -14,16 +18,14 @@ export function Login() {
       return
     }
 
-    if (password !== confirmPassword) {
-      return setError("Passwords do not match")
-    }else if ( password.length < 6) {
+    if ( password.length < 6) {
       return setError("Length of password must be greater than 6")
     }
     try{
       setError("")
       setLoading(true)
       await login(email, password)
-      useNavigate("/")
+      navigate("/home/timeline")
     } catch{
       setError("Failed to login")
     }

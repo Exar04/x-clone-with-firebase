@@ -1,13 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useAuth } from "../context/authContext";
 
-export function SignIn() {
+export function SignUp() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
 
   const { signup } = useAuth()
 
@@ -25,6 +27,7 @@ export function SignIn() {
       setError("")
       setLoading(true)
       await signup(email, password)
+      navigate("/home/timeline")
     } catch{
       setError("Failed to create an account")
     }
