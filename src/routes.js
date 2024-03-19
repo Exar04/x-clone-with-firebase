@@ -18,10 +18,7 @@ export const PrivateRoute = ({
   authenticated,
   ...rest
 }) => {
-  // Add your authentication logic here
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { currentUser } = useAuth();
-  const isAuthenticated = true
   return currentUser ? (
     <Component {...rest} />
   ) : (

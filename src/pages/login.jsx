@@ -42,7 +42,7 @@ export function Login() {
           <div className="m-4 w-auto text-center">
             <input onChange={(e) => { setEmail(e.target.value) }} className=" mt-0 w-full h-12 border-2 rounded-md my-8 text-center text-xl" placeholder="Username" />
             <input onChange={(e) => { setPassword(e.target.value) }} className="w-full h-12 border-2 rounded-md mb-8 text-center text-xl" placeholder="Password"/>
-          <div onClick={() => {handleSubmit()}} className=" bg-violet-600 h-12 rounded-lg text-center text-white font-bolt text-xl p-2">LogIn</div>
+          <div onClick={() => {handleSubmit()}} className={`${loading ? "bg-violet-400": " bg-violet-600" } h-12 rounded-lg text-center text-white font-bolt text-xl p-2`}>{loading ? <>Loading...</>:<>LogIn</>}</div>
 
           </div>
 

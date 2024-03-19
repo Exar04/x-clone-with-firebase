@@ -48,7 +48,7 @@ export function Profile(props) {
                     </div>
 
                     <div className="w-full h-16 flex justify-around text-2xl items-center text-white border-0 border-b-0.5 border-slate-500">
-                        <div className=" relative"><div className="absolute top-10 bg-blue-500 rounded-full h-2 w-full"></div>Posts</div>
+                        <div className=" relative"><div className="absolute top-10 bg-sky-400 rounded-full h-2 w-full"></div>Posts</div>
                         <div>Replies</div>
                         <div>Media</div>
                         <div>Liked</div>

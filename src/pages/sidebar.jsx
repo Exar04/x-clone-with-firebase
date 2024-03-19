@@ -22,15 +22,22 @@ export function Sidebar(props) {
             
             </div></Link>
     )
-    const logOutButtonDiv = ( clicledOnLoggedInUser ? <div onClick={logOut} className="p-3 ml-9 m-2 text-2xl text-white bg-blue-500 hover:bg-red-500 rounded-full text-center">Log Out</div>:<></>)
+    const logOutAndEditProfileComponent = (
+        clicledOnLoggedInUser ?
+            <div>
+                <div className="p-3 ml-9 m-2 text-2xl text-white bg-sky-500 hover:bg-sky-400 rounded-full text-center transition duration-500 hover:translate-x-2">Edit Profile</div>
+                <div onClick={logOut} className="p-3 ml-9 m-2 text-2xl text-white bg-sky-500 hover:bg-red-500 rounded-full text-center transition duration-500 hover:translate-x-2">Log Out</div>
+            </div>
+            :<></>
+         )
     return (
         <div className="md:w-96 w-0 flex-none bg-zinc-950 h-screen flex flex-col border-r-0.5 border-0 border-slate-600">{/*SideBar*/}
             <div className=" text-3xl text-white font-bold font-serif ml-10 m-4 flex-none flex items-center"><img width="50" height="50" src="https://img.icons8.com/ios-filled/100/FFFFFF/share-2.png" alt="share-2"/>ConnectSphere</div>
             <div className=" flex-grow overflow-scroll ml-7">
                 {listOfSidebarPagesDiv}
-                <div onClick={() => { }} className="p-3 m-2 text-2xl text-white hover:bg-blue-400 bg-blue-500 rounded-full text-center">Post</div>
+                <div onClick={() => { props.setIfUserWantsToPost(true) }} className="p-3 m-2 text-2xl text-white hover:bg-sky-400 bg-sky-500 rounded-full text-center">Post</div>
             </div>
-            {logOutButtonDiv}
+            {logOutAndEditProfileComponent}
             <div role={"button"} onClick={() => {setClicledOnLoggedInUser(!clicledOnLoggedInUser)}} className="h-24 flex-none text-xl text-white flex items-center p-4 m-4 justify-between">
                 <div>Username</div>
                 <div className="bg-gray-700 w-12 h-12 rounded-full"></div>
