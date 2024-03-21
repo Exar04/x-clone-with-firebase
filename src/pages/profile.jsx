@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { usePostHandler } from "../hooks/postHandler"
 
 export function Profile(props) {
     const [Posts, setPosts] = useState([
@@ -6,14 +7,16 @@ export function Profile(props) {
         { id: 2, Username: "Vinyas", data: "this is my first twitt" },
         { id: 3, Username: "Sajal", data: "this is my first twitt" },
     ])
-
-    const listOfPostsDiv = Posts.map(post =>
-        <div key={post.id} className="w-11/12 h-fit border text-white p-3 border-slate-400 rounded-lg m-3 flex-none">
+    const { LoggedInUserPosts } = usePostHandler()
+    
+    // I should convert this div in a seperate component cuz it is gonna be in profile, timeline and explore also
+    const listOfPostsDiv = LoggedInUserPosts.map(post =>
+        <div key={post.id} className="w-full h-fit  border-b-0.5 text-white p-3 border-slate-600 flex-none">
             <div className="flex items-center">
                 <div className="bg-gray-700 w-12 h-12 rounded-full mr-4"></div>
-                <div>{post.Username}</div>
+                <div className=" text-xl font-bold">{post.permanentUsername}</div>
             </div>
-            <div className=" w-10/12 relative left-16 flex-wrap flex">{post.data}</div>
+            <div className=" w-10/12 relative left-16 flex-wrap flex text-lg">{post.data}</div>
         </div>
     )
 
@@ -39,7 +42,8 @@ export function Profile(props) {
                         <div className=" ml-9 mb-3 text-xl  text-white">Bio heh this is the biggest bio i can write, and yeah i know its pretty bad</div>
                         <div className="flex ml-9 text-xl">
                             <div className="flex text-slate-600 items-center mr-5"> <img width="25" height="25" className=" relative bottom-1 mr-2" src="https://img.icons8.com/pastel-glyph/64/404040/suitcase--v3.png" alt="suitcase--v3"/> Profession</div>
-                            <div className="flex text-slate-600 items-center"><img width="25" height="20" className=" relative bottom-0 mr-0" src="https://img.icons8.com/sf-black/64/404040/party-baloon.png" alt="party-baloon"/> <div> Birth date</div></div>
+                            <div className="flex text-slate-600 items-center mr-5"><img width="25" height="20" className=" relative bottom-0.5 mr-1" src="https://img.icons8.com/material-rounded/48/404040/cupcake.png" alt="cupcake"/> <div> Birth date</div></div>
+                            <div className="flex text-slate-600 items-center"><img width="20" height="20" className=" relative bottom-0.5 mr-1" src="https://img.icons8.com/external-sbts2018-solid-sbts2018/58/404040/external-calender-diwali-sbts2018-solid-sbts2018-2.png" alt="external-calender-diwali-sbts2018-solid-sbts2018-2"/><div>Joined At</div></div>
                         </div>
                         <div className="flex ml-9 text-xl m-4">
                             <div className=" mr-5 flex"><div className="text-white mr-2">69</div> <div className=" text-slate-600 ">Followers</div></div>
@@ -53,14 +57,7 @@ export function Profile(props) {
                         <div>Media</div>
                         <div>Liked</div>
                     </div>
-                    <div className=" m-4">
-                        <div className=" bg-slate-500 w-full h-40 rounded-lg mb-4"></div>
-                        <div className=" bg-slate-500 w-full h-80 rounded-lg mb-4"></div>
-                        <div className=" bg-slate-500 w-full h-40 rounded-lg mb-4"></div>
-                        <div className=" bg-slate-500 w-full h-40 rounded-lg mb-4"></div>
-                        <div className=" bg-slate-500 w-full h-80 rounded-lg mb-4"></div>
-                        <div className=" bg-slate-500 w-full h-40 rounded-lg mb-4"></div>
-                    </div>
+                    {listOfPostsDiv}
                 </div>
             </div>
             <div className="bg-zinc-950 lg:h-screen lg:basis-2/6 w-0 h-0 border-l-0.5 border-0 border-slate-600 text-white overflow-scroll">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 export function Login() {
 
@@ -50,7 +51,7 @@ export function Login() {
             Forgot password ?
           </div>
 
-          <hr class="h-px mt-4 mb-4 bg-gray-200 border-0 dark:bg-gray-700" />
+          <hr className="h-px mt-4 mb-4 bg-gray-200 border-0 dark:bg-gray-700" />
           <div className="flex">
             <div className="w-1/2 flex justify-center m-1 p-2 border-2 rounded-md">
               <img width="35" height="35" src="https://img.icons8.com/color/144/google-logo.png" alt="google-logo" />
@@ -59,9 +60,9 @@ export function Login() {
               <img width="35" height="35" src="https://img.icons8.com/ios-glyphs/120/github.png" alt="github" />
             </div>
           </div>
-          <hr class="h-px mt-4 mb-4 bg-gray-200 border-0 dark:bg-gray-700" />
+          <hr className="h-px mt-4 mb-4 bg-gray-200 border-0 dark:bg-gray-700" />
 
-          <div className=" text-l text-center text-slate-500">Create A New Account!</div>
+          <div className=" text-l text-center text-slate-500"><Link to="/signup">Create A New Account!</Link></div>
         </div>
       </div>
     </div>

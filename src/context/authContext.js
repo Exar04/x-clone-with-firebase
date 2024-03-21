@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react"
-import {auth} from "../config/firebase"
+import {auth, db} from "../config/firebase"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
-// import { useCreateUser } from "../hooks/CreateUser"
-
+import { addDoc, collection, serverTimestamp } from "firebase/firestore"
+import { useNavigate } from "react-router"
 
 const AuthContext = React.createContext()
 
@@ -14,12 +14,43 @@ export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null)
     const [pending, setPending] = useState(true)
 
-    function signup(email, password) {
-      return createUserWithEmailAndPassword(auth, email, password)
+    const createNewUser = async (userId, permanentUsername, email) => {
+      try {
+        await addDoc(collection(db, "users"), {
+          userId,
+          permanentUsername,
+          email,
+          username: "",
+          profiession: "",
+          Birthdate: "",
+          bio: "",
+          createdAt: serverTimestamp(),
+          followers: 0,
+          following: 0,
+          accountPrivate: false,
+        });
+        console.log("user created");
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    async function signup(email, password, username) {
+      try{
+
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      createNewUser(user.uid, username, email);
+      return user
+      } catch(err) {
+        throw err
+      }
     }
 
-    function login(email, password) {
-      return signInWithEmailAndPassword(auth, email, password);
+    async function login(email, password) {
+      return await signInWithEmailAndPassword(auth, email, password);
     }
 
     function logOut() {

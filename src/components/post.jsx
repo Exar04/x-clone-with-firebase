@@ -1,14 +1,15 @@
 import { useState } from "react"
-import { useSendPost } from "../hooks/useSendPost"
+import { usePostHandler } from "../hooks/postHandler"
+
 export function PostComponent(props) {
     const [inputData, setinputData] = useState("")
-    const { sendPost } = useSendPost()
+    const { sendPost } = usePostHandler()
 
     return (
         <div className=" w-screen h-screen absolute flex justify-center ">
-            <div className="bg-zinc-950 w-3/6 h-96 z-10 rounded-3xl relative -left-6 top-32 flex flex-col">
+            <div className="bg-zinc-950 md:w-3/6 w-full h-96 z-10 rounded-3xl relative md:-left-6 top-32 flex flex-col">
                 <div className=" w-full h-14 flex justify-between items-center">
-                <img width="50" height="50" className="ml-4 mt-2 hover:bg-zinc-800 rounded-full transition duration-300" src="https://img.icons8.com/ios/100/FFFFFF/multiply.png" alt="multiply"/>
+                    <img width="50" height="50" className="ml-4 mt-2 hover:bg-zinc-800 rounded-full transition duration-300" src="https://img.icons8.com/ios/100/FFFFFF/multiply.png" alt="multiply" />
                     <div className=" text-sky-500 font-bold mr-4 rounded-full hover:bg-zinc-800 p-2 text-lg ">Drafts</div>
                 </div>
                 <div className=" flex w-full flex-grow">
@@ -22,12 +23,10 @@ export function PostComponent(props) {
                             <div className=" rounded-full hover:bg-zinc-800 p-3"><img width="30" height="30"  src="https://img.icons8.com/material-rounded/48/0ea5e9/image.png" alt="image"/></div>
                             <div className=" rounded-full hover:bg-zinc-800 p-3"><img width="30" height="30" src="https://img.icons8.com/fluency-systems-filled/96/0ea5e9/gif.png" alt="gif"/></div>
                         </div>
-                        <div role={"button"} onClick={() => { sendPost(inputData) }} className="p-2 px-6 bg-sky-400 rounded-3xl">Post</div>
+                        <div role={"button"} onClick={() => { sendPost(inputData); props.setIfUserWantsToPost(false) }} className="p-2 px-6 bg-sky-400 rounded-3xl">Post</div>
                     </div>
             </div>
-            <div onClick={() => { props.setIfUserWantsToPost(false) }} className="bg-white opacity-35 absolute w-full h-full"></div>
+            <div onClick={() => { props.setIfUserWantsToPost(false) }} className="bg-sky-200 opacity-20 absolute w-full h-full"></div>
         </div>
-
-        // <div className=" bg-blue-700 w-screen h-screen absolute top-0 left-0"></div>
     )
 }
