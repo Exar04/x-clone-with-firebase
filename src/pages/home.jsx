@@ -15,7 +15,7 @@ export function Home() {
     return (
         <div className="flex flex-col w-screen h-screen">
             <TopNavBarForMobileView />
-            <div className="flex-grow w-full flex">
+            <div className="flex-grow w-full flex overflow-scroll">
                 <Sidebar setIfUserWantsToPost={setIfUserWantsToPost} />
                 <div className="h-full w-full overflow-scroll">
                     <Outlet />
@@ -23,6 +23,22 @@ export function Home() {
                 {userWantsToPost ? <PostComponent setIfUserWantsToPost={setIfUserWantsToPost} /> : ""}
             </div>
 
+            <BottomNavBarForMobileView />
+        </div>
+    )
+}
+
+export function Homeox() {
+    const [userWantsToPost, setIfUserWantsToPost] = useState(false)
+    return(
+        <div className="flex flex-col w-screen h-screen">
+            <TopNavBarForMobileView />
+            <div className="flex flex-grow bg-lime-400 w-full overflow-scroll ">
+                <Sidebar setIfUserWantsToPost={setIfUserWantsToPost} />
+                <div className=" bg-slate-400 w-full h-full overflow-scroll">
+                    <div className=" h-96 bg-slate-400 w-full"></div>
+                </div>
+            </div>
             <BottomNavBarForMobileView />
         </div>
     )

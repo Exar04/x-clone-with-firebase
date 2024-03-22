@@ -22,23 +22,20 @@ export function Timeline(props) {
                     <div>Following</div>
                 </div>
                 {listOfPostsDiv}
+                {listOfPostsDiv}
+                {listOfPostsDiv}
+                {listOfPostsDiv}
+                {listOfPostsDiv}
+                {listOfPostsDiv}
+                {listOfPostsDiv}
             </div>
 
-            <div className=" lg:w-96 w-0 h-0 lg:h-screen  overflow-scroll p-3 border-l-0.5 border-0 border-slate-600">
+            <div className=" xl:w-96 w-0 h-0 xl:h-screen overflow-scroll xl:p-3 p-0 xl:border-l-0.5 border-0 border-slate-600 flex-none">
                     <div className=" bg-slate-500 w-full h-96 rounded-lg mb-4"></div>
                     <div className=" bg-slate-400 w-full h-96 rounded-lg mb-4"></div>
                     <div className=" bg-slate-500 w-full h-80 rounded-lg mb-4"></div>
                     <div className=" bg-slate-500 w-full h-40 rounded-lg mb-4"></div>
             </div>
-
-            {/* <div className="bg-zinc-950 md:basis-2/6 w-0 lg:h-screen border-l-0.5 border-0 border-slate-600 overflow-scroll">
-                <div className=" m-4 h-full">
-                    <div className=" bg-slate-500 w-full h-96 rounded-lg mb-4"></div>
-                    <div className=" bg-slate-400 w-full h-96 rounded-lg mb-4"></div>
-                    <div className=" bg-slate-500 w-full h-80 rounded-lg mb-4"></div>
-                    <div className=" bg-slate-500 w-full h-40 rounded-lg mb-4"></div>
-                </div>
-            </div> */}
         </div>
 
     )
