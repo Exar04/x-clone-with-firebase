@@ -22,12 +22,6 @@ export function Timeline(props) {
                     <div>Following</div>
                 </div>
                 {listOfPostsDiv}
-                {listOfPostsDiv}
-                {listOfPostsDiv}
-                {listOfPostsDiv}
-                {listOfPostsDiv}
-                {listOfPostsDiv}
-                {listOfPostsDiv}
             </div>
 
             <div className=" xl:w-96 w-0 h-0 xl:h-screen overflow-scroll xl:p-3 p-0 xl:border-l-0.5 border-0 border-slate-600 flex-none">
