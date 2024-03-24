@@ -11,8 +11,26 @@ export const useUserHandler = () => {
 
   }
 
-  const getAllUserProfileData = async () => {
+  const getUserProfileData = async (permanentUsername, callback) => {
+    var unsubscribe;
+    try {
+      const userQuery = query(usersCollectionRef,where("permanentUsername", "==", permanentUsername))
 
+      unsubscribe = onSnapshot(userQuery, (snapshot) => {
+        let userData = null;
+        if (snapshot.size === 1) {
+          const doc = snapshot.docs[0];
+          userData = { id: doc.id, ...doc.data() };
+        }
+      callback(userData);
+      })
+    } catch (err) {
+      console.error(err);
+    }
+
+    return () => {
+      unsubscribe()
+    } 
   }
 
   const getUserNotifications = async(userId) => {
@@ -31,18 +49,42 @@ export const useUserHandler = () => {
 
   }
 
-  return { };
+  const getSearchedUser = async ( permanentUsername ,callback) => {
+    var listOfDocs = [];
+    var unsubscribe;
+    try {
+      const queryUsers = query(usersCollectionRef, where("permanentUsername", ">=", permanentUsername), where("permanentUsername", "<", permanentUsername + "\uf8ff"));
+
+      unsubscribe = onSnapshot(queryUsers, (snapshot) => {
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const id = doc.id;
+          listOfDocs.push({ ...data, id });
+        });
+        console.log(listOfDocs)
+        callback(listOfDocs)
+
+      })
+    } catch (err) {
+      console.error(err);
+    }
+
+    return () => {
+      unsubscribe()
+    }
+  }
+
+  return { getSearchedUser, getUserProfileData };
 };
 
-export const useUserInfo = () => {
-  const [usernameOfLoggedInUser, setUsernameOfLoggedInUser] = useState("")
+export const useLoggedInUserInfo = () => {
+  const [changableUsernameOfLoggedInUser, setChangableUsernameOfLoggedInUser] = useState("")
   const [permanentUsernameOfLoggedInUser, setPermanentUsernameOfLoggedInUser] = useState("")
   const [userBio, setUserBio] = useState("")
-  const [postsOfLoggedInUser, setPostsOfLoggedInUser] = useState([])
 
   const usersCollectionRef = collection(db, "users");
   const { currentUser } = useAuth()
-
+  
   const getUserData = async () => {
     var unsubscribe 
     try{
@@ -55,10 +97,9 @@ export const useUserInfo = () => {
           const doc = snapshot.docs[0];
           userData = { id: doc.id, ...doc.data() };
         }
-        setUsernameOfLoggedInUser(userData.usernameOfLoggedInUser)
         setPermanentUsernameOfLoggedInUser(userData.permanentUsername)
         setUserBio(userData.bio)
-        setUsernameOfLoggedInUser(userData.username)
+        setChangableUsernameOfLoggedInUser(userData.username)
       })
     } catch(err){
       console.error(err)
@@ -70,5 +111,5 @@ export const useUserInfo = () => {
     getUserData()
   }, [])
 
-  return { usernameOfLoggedInUser, permanentUsernameOfLoggedInUser, userBio }
+  return { changableUsernameOfLoggedInUser, permanentUsernameOfLoggedInUser, userBio }
 }

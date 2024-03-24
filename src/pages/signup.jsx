@@ -29,6 +29,11 @@ export function SignUp() {
       return
     }
 
+    if (permanentUsername.length > 3) {
+      alert("Username must be atleast of 3 characters")
+      return
+    }
+
     if (password !== confirmPassword) {
       alert("Passwords doesn't match")
       return

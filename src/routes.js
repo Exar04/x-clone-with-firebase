@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
         element: <Messages />,
       },
       {
-        path: "home/profile",
+        path: "home/profile/:permanentUsername",
         element: <Profile />,
       },
       {

@@ -2,7 +2,7 @@ import { addDoc, collection, onSnapshot, query, serverTimestamp, where } from "f
 import { useEffect, useState } from "react";
 import { db } from "../config/firebase";
 import { useAuth } from "../context/authContext";
-import { useUserInfo } from "./userHandler";
+import { useLoggedInUserInfo } from "./userHandler";
 
 export const usePostHandler = () => {
   const { currentUser } = useAuth();
@@ -10,7 +10,7 @@ export const usePostHandler = () => {
   const [TimelineForYouposts, setTimelineForYouPosts] = useState([])
   const [LoggedInUserPosts, setLoggedInUserPosts] = useState([])
   const [UserPosts, setUserPosts] = useState([])
-  const { usernameOfLoggedInUser, permanentUsernameOfLoggedInUser } = useUserInfo()
+  const { usernameOfLoggedInUser, permanentUsernameOfLoggedInUser } = useLoggedInUserInfo()
 
 
   const sendPost = async (text) => {
@@ -82,6 +82,31 @@ export const usePostHandler = () => {
     }
   }
 
+  const getUserPosts = async( permanentUsername, callback ) => {
+
+    var unsubscribe 
+    let listOfDocs = []
+    try{
+      const queryGetUserPosts = query(postCollectionRef, where("permanentUsername", "==", permanentUsername))
+
+      unsubscribe = onSnapshot(queryGetUserPosts, (snapshot) => {
+        snapshot.forEach((doc) => {
+          const data = doc.data()
+          const id = doc.id
+          listOfDocs.push({...data, id})
+        })
+        callback(listOfDocs)
+      })
+    } catch(err){
+      console.error(err)
+    }
+
+    return () => {
+      unsubscribe()
+    }
+
+  }
+
 
   var runOnce = true 
   useEffect(() => {
@@ -92,5 +117,5 @@ export const usePostHandler = () => {
     }
   },[])
 
-  return { sendPost, getTimelineFollowingPosts, getTimelineForYouPosts, LoggedInUserPosts, TimelineForYouposts };
+  return { sendPost, getTimelineFollowingPosts, getTimelineForYouPosts, LoggedInUserPosts, TimelineForYouposts, getUserPosts };
 }

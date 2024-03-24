@@ -81,7 +81,9 @@ export function AuthProvider({ children }) {
     };
 
     if (pending) {
-      return <div className=" bg-black w-screen h-screen"></div>
+      return <div className=" bg-black w-screen h-screen flex justify-center items-center text-white" style={{animation: "", fontSize:'5vw'}}>
+        Loading ...
+      </div>
     }
     return(
         <AuthContext.Provider value={value}>
