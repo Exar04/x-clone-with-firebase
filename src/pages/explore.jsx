@@ -65,12 +65,6 @@ function SearchedDataComponent(props) {
     return (
         <div className=" bg-zinc-950 h-96 w-5/6 absolute top-20 z-20 rounded-xl shadow-2xl shadow-slate-400 border-0.5 border-slate-500 ">
             {listOfUsersDiv}
-            {listOfUsersDiv}
-            {listOfUsersDiv}
-            {listOfUsersDiv}
-            {listOfUsersDiv}
-            {listOfUsersDiv}
-            {listOfUsersDiv}
         </div>
     )
 }

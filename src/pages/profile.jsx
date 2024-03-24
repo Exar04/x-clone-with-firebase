@@ -4,17 +4,28 @@ import { usePostHandler } from "../hooks/postHandler"
 import { useUserHandler, useLoggedInUserInfo } from "../hooks/userHandler"
 
 export function Profile(props) {
-    const [isProfileOfLoggedInUser, set_If_It_Is_ProfileOfLoggedInUser] = useState(false)
-    const { permanentUsernameOfLoggedInUser } = useLoggedInUserInfo()
     const params = useParams()
+
+    const [isProfileOfLoggedInUser, set_If_It_Is_ProfileOfLoggedInUser] = useState(false)
+    const { permanentUsernameOfLoggedInUser, userIdOfLoggedInUser, listOfFollowingsOfLoggedInUser, listOfFollowersOfLoggedInUser } = useLoggedInUserInfo()
     const usernameInUrl = params.permanentUsername
+
     const [permanentUsernameOfUserWeSearchedFor,setPermanentUsernameOfUserWeSearchedFor ] = useState("")
     const [bioOfUserWeSearchedFor, setBioOfUserWeSearchedFor] = useState("")
     const [displayNameOfUserWeSearchedFor, setDisplayNameOfUserWeSearchedFor] = useState("") 
+    const [userIdOfUserWeSearchedFor, setUserIdOfUserWeSearchedFor] = useState("")
     const [listOfPosts, setListOfPosts] = useState([])
+    const [ loggedin_user_follows_this_user ,set_loggedin_user_follows_this_user] = useState(false)
+    const [ user_follows_loggedin_user, set_user_follows_loggedin_user  ] = useState(false)
+    const [FollowButtonText, setFollowButtonText] = useState("")
 
-    const {getUserProfileData} = useUserHandler()
+    const { getUserProfileData, followOrUnFollowThisUser } = useUserHandler()
     const { LoggedInUserPosts, getUserPosts } = usePostHandler()
+
+    function clickedFollowButton() {
+        followOrUnFollowThisUser(userIdOfLoggedInUser, userIdOfUserWeSearchedFor, permanentUsernameOfLoggedInUser, permanentUsernameOfUserWeSearchedFor, loggedin_user_follows_this_user)
+        set_loggedin_user_follows_this_user(!loggedin_user_follows_this_user)
+    }
 
     useEffect(() => {
         if (permanentUsernameOfLoggedInUser == usernameInUrl) {
@@ -22,12 +33,28 @@ export function Profile(props) {
         }
         getUserProfileData(usernameInUrl, (userData) => {
             setPermanentUsernameOfUserWeSearchedFor(userData.permanentUsername)
+            setUserIdOfUserWeSearchedFor(userData.id)
             setBioOfUserWeSearchedFor(userData.bio)
         })
         getUserPosts(usernameInUrl, (posts) => {
             setListOfPosts([...posts])
         })
-    }, [ permanentUsernameOfLoggedInUser, usernameInUrl])
+        set_user_follows_loggedin_user( listOfFollowersOfLoggedInUser.includes(permanentUsernameOfUserWeSearchedFor))
+        set_loggedin_user_follows_this_user( listOfFollowingsOfLoggedInUser.includes(permanentUsernameOfUserWeSearchedFor))
+    }, [ permanentUsernameOfLoggedInUser, usernameInUrl, permanentUsernameOfUserWeSearchedFor])
+
+    useEffect(() => {
+        if (user_follows_loggedin_user == true && loggedin_user_follows_this_user == true) {
+            setFollowButtonText("Following")
+        } else if (user_follows_loggedin_user == false && loggedin_user_follows_this_user == true){
+            setFollowButtonText("Following")
+        } else if (user_follows_loggedin_user == true && loggedin_user_follows_this_user == false){
+            setFollowButtonText("Follows You")
+        } else if (user_follows_loggedin_user == false && loggedin_user_follows_this_user == false){
+            setFollowButtonText("Follow")
+        }
+
+    }, [user_follows_loggedin_user, loggedin_user_follows_this_user]) 
 
     
     // I should convert this div in a seperate component cuz it is gonna be in profile, timeline and explore also
@@ -59,7 +86,11 @@ export function Profile(props) {
                         <div className="m-3 flex items-baseline ">
                             <div className=" ml-6 text-2xl font-bold text-white">Username</div>
                             <div className=" ml-6 text-xl  text-slate-600">@{permanentUsernameOfUserWeSearchedFor}</div>
-                            { isProfileOfLoggedInUser?null:<div className=" bg-white ml-6 px-4 py-1 rounded-lg hover:bg-black hover:text-white hover:ring-2 hover:ring-pink-500 ring-inset transition duration-300 ease-in-out">Follow</div> }
+                            { isProfileOfLoggedInUser ? null :
+                            <div role={"button"} onClick={(e) => { clickedFollowButton() }} className={`${ (FollowButtonText === "Following")?"text-white ring-2 ring-pink-500 bg-black":"bg-white" } ml-6 px-4 py-1 rounded-lg hover:bg-black hover:text-white hover:ring-2 hover:ring-pink-500 ring-inset transition duration-300 ease-in-out`}>
+                                {FollowButtonText}
+                            </div>
+                            }
                         </div>
                         <div className=" ml-9 mb-3 text-xl  text-white">{bioOfUserWeSearchedFor}</div>
                         <div className="lg:flex ml-9 text-xl">

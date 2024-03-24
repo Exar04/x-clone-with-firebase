@@ -1,4 +1,4 @@
-import { addDoc, collection, onSnapshot, query, serverTimestamp, where } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, query, serverTimestamp, where, updateDoc, doc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../config/firebase";
 import { useAuth } from "../context/authContext";
@@ -8,6 +8,30 @@ export const useUserHandler = () => {
   const usersCollectionRef = collection(db, "users");
 
   const getUser_Pfp_Username_Displayname = async () => {
+
+  }
+
+  const followOrUnFollowThisUser = async (userIdOfLoggedInUser, userIdOfOtherUser, permanentUsernameOfLoggedInUser, permanentUsernameOfOtherUser,  logged_in_user_follows_this_user) => {
+    const userDocRef1 = doc(db, "users", userIdOfLoggedInUser);
+    const userDocRef2 = doc(db, "users", userIdOfOtherUser);
+
+    if (!logged_in_user_follows_this_user) {
+      console.log(logged_in_user_follows_this_user)
+    updateDoc(userDocRef1 , {
+      following: arrayUnion(permanentUsernameOfOtherUser)
+    });
+    updateDoc(userDocRef2,{
+      followers: arrayUnion(permanentUsernameOfLoggedInUser)
+    })
+
+   } else {
+    updateDoc(userDocRef1 , {
+      following: arrayRemove(permanentUsernameOfOtherUser)
+    });
+    updateDoc(userDocRef2,{
+      followers: arrayRemove(permanentUsernameOfLoggedInUser)
+    })
+   }
 
   }
 
@@ -74,12 +98,15 @@ export const useUserHandler = () => {
     }
   }
 
-  return { getSearchedUser, getUserProfileData };
+  return { getSearchedUser, getUserProfileData, followOrUnFollowThisUser };
 };
 
 export const useLoggedInUserInfo = () => {
   const [changableUsernameOfLoggedInUser, setChangableUsernameOfLoggedInUser] = useState("")
   const [permanentUsernameOfLoggedInUser, setPermanentUsernameOfLoggedInUser] = useState("")
+  const [userIdOfLoggedInUser, setUserIdOfLoggedInUser] = useState("")
+  const [listOfFollowersOfLoggedInUser, setListOfFollowersOfLoggedInUser] = useState([])
+  const [listOfFollowingsOfLoggedInUser, setListOfFollowingsOfLoggedInUser ] = useState([])
   const [userBio, setUserBio] = useState("")
 
   const usersCollectionRef = collection(db, "users");
@@ -98,8 +125,11 @@ export const useLoggedInUserInfo = () => {
           userData = { id: doc.id, ...doc.data() };
         }
         setPermanentUsernameOfLoggedInUser(userData.permanentUsername)
+        setUserIdOfLoggedInUser(userData.id)
         setUserBio(userData.bio)
         setChangableUsernameOfLoggedInUser(userData.username)
+        setListOfFollowersOfLoggedInUser(userData.followers)
+        setListOfFollowingsOfLoggedInUser(userData.following)
       })
     } catch(err){
       console.error(err)
@@ -111,5 +141,5 @@ export const useLoggedInUserInfo = () => {
     getUserData()
   }, [])
 
-  return { changableUsernameOfLoggedInUser, permanentUsernameOfLoggedInUser, userBio }
+  return { changableUsernameOfLoggedInUser, permanentUsernameOfLoggedInUser, userBio, listOfFollowersOfLoggedInUser, listOfFollowingsOfLoggedInUser, userIdOfLoggedInUser }
 }

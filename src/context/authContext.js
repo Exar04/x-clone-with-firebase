@@ -21,12 +21,14 @@ export function AuthProvider({ children }) {
           permanentUsername,
           email,
           username: "",
+          profileImage:"",
+          backgroundImage:"",
           profiession: "",
           Birthdate: "",
           bio: "",
           createdAt: serverTimestamp(),
-          followers: 0,
-          following: 0,
+          followers: [],
+          following: [],
           accountPrivate: false,
         });
         console.log("user created");
@@ -81,8 +83,8 @@ export function AuthProvider({ children }) {
     };
 
     if (pending) {
-      return <div className=" bg-black w-screen h-screen flex justify-center items-center text-white" style={{animation: "", fontSize:'5vw'}}>
-        Loading ...
+      return <div className=" bg-black w-screen h-screen flex justify-center items-center text-white font-mono" style={{animation: "", fontSize:'5vw'}}>
+        ConnectSphere
       </div>
     }
     return(
