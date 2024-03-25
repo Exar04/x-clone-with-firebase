@@ -106,6 +106,8 @@ export const useLoggedInUserInfo = () => {
   const [userIdOfLoggedInUser, setUserIdOfLoggedInUser] = useState("")
   const [listOfFollowersOfLoggedInUser, setListOfFollowersOfLoggedInUser] = useState([])
   const [listOfFollowingsOfLoggedInUser, setListOfFollowingsOfLoggedInUser ] = useState([])
+  const [PfpImageUrlOfLoggedInUser, setPfpImageUrlOfLoggedInUser] = useState("")
+  const [BackgroundImageUrlOfLoggedInUser, setBackgroundImageUrlOfLoggedInUser] = useState("")
   const [userBio, setUserBio] = useState("")
 
   const usersCollectionRef = collection(db, "users");
@@ -129,6 +131,8 @@ export const useLoggedInUserInfo = () => {
         setChangableUsernameOfLoggedInUser(userData.username)
         setListOfFollowersOfLoggedInUser(userData.followers)
         setListOfFollowingsOfLoggedInUser(userData.following)
+        setPfpImageUrlOfLoggedInUser(userData.profileImage)
+        setBackgroundImageUrlOfLoggedInUser(userData.backgroundImage)
       })
     } catch(err){
       console.error(err)
@@ -140,5 +144,5 @@ export const useLoggedInUserInfo = () => {
     getUserData()
   }, [])
 
-  return { changableUsernameOfLoggedInUser, permanentUsernameOfLoggedInUser, userBio, listOfFollowersOfLoggedInUser, listOfFollowingsOfLoggedInUser, userIdOfLoggedInUser }
+  return { changableUsernameOfLoggedInUser, permanentUsernameOfLoggedInUser, userBio, listOfFollowersOfLoggedInUser, listOfFollowingsOfLoggedInUser, userIdOfLoggedInUser, PfpImageUrlOfLoggedInUser, BackgroundImageUrlOfLoggedInUser }
 }

@@ -7,7 +7,7 @@ export function Profile(props) {
     const params = useParams()
 
     const [isProfileOfLoggedInUser, set_If_It_Is_ProfileOfLoggedInUser] = useState(false)
-    const { permanentUsernameOfLoggedInUser, userIdOfLoggedInUser, listOfFollowingsOfLoggedInUser, listOfFollowersOfLoggedInUser } = useLoggedInUserInfo()
+    const { permanentUsernameOfLoggedInUser, userIdOfLoggedInUser, listOfFollowingsOfLoggedInUser, listOfFollowersOfLoggedInUser, PfpImageUrlOfLoggedInUser, BackgroundImageUrlOfLoggedInUser } = useLoggedInUserInfo()
     const usernameInUrl = params.permanentUsername
 
     const [permanentUsernameOfUserWeSearchedFor,setPermanentUsernameOfUserWeSearchedFor ] = useState("")
@@ -79,8 +79,18 @@ export function Profile(props) {
                     </div>
                 </div>
                 <div className=" w-full relative h-screen">
-                    <div className=" bg-lime-900 w-full h-72"></div> {/* banner */}
-                    <div className=" bg-slate-600 rounded-full w-48 h-48 absolute top-48 left-16 "></div> {/* Pfp */}
+{/* banner */} 
+                    {BackgroundImageUrlOfLoggedInUser ?
+                    <img className="w-full h-72" src={BackgroundImageUrlOfLoggedInUser} style={{ objectFit: 'cover'}}/>
+                    :
+                    <div className=" bg-slate-700 w-full h-72"></div> 
+                    }
+{/* Pfp */}
+                    {PfpImageUrlOfLoggedInUser ?
+                    <img className=" bg-slate-600 rounded-full w-48 h-48 absolute top-48 left-16 overflow-hidden" src={PfpImageUrlOfLoggedInUser} style={{ objectFit: 'cover'}}/>
+                    :
+                    <div className=" bg-slate-600 rounded-full w-48 h-48 absolute top-48 left-16 "></div> 
+                    }
                     <div className=" h-96">
                         <div className=" h-28"></div> {/* just white space between pfp n content */}
                         <div className="m-3 flex items-baseline ">

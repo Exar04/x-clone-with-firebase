@@ -3,6 +3,7 @@ import { Link, Outlet } from "react-router-dom"
 import { useAuth } from "../context/authContext"
 import { useLoggedInUserInfo } from "../hooks/userHandler"
 
+
 export function Sidebar(props) {
     const [clicledOnLoggedInUser, setClicledOnLoggedInUser] = useState(false)
     const { permanentUsernameOfLoggedInUser } = useLoggedInUserInfo(false)
@@ -25,7 +26,7 @@ export function Sidebar(props) {
 
     const listOfSidebarPagesDiv = SidebarPages.map(Page =>
         <div key={Page.id}>
-        <Link to={Page.link}><div key={Page.id} className="p-3 m-2 text-2xl text-white hover:bg-zinc-700 rounded-lg text-center flex justify-start">
+        <Link to={Page.link}><div key={Page.id} className="p-3 m-2 text-2xl font-mono text-white hover:bg-zinc-700 rounded-lg text-center flex justify-start">
             <img src={Page.icon} width="35" height="20" className=" relative bottom-1 mr-10" alt="" />
             <div> {Page.pagevar}</div>
         </div></Link>
@@ -35,7 +36,7 @@ export function Sidebar(props) {
     const logOutAndEditProfileComponent = (
         clicledOnLoggedInUser ?
             <div>
-                <div className="p-3 ml-9 m-2 text-2xl text-white bg-sky-500 hover:bg-sky-400 rounded-full text-center transition duration-500 hover:translate-x-2">Edit Profile</div>
+                <Link to={"/home/editprofile"}><div className="p-3 ml-9 m-2 text-2xl text-white bg-sky-500 hover:bg-sky-400 rounded-full text-center transition duration-500 hover:translate-x-2">Edit Profile</div></Link>
                 <div onClick={logOut} className="p-3 ml-9 m-2 text-2xl text-white bg-sky-500 hover:bg-red-500 rounded-full text-center transition duration-500 hover:translate-x-2">Log Out</div>
             </div>
             : <></>

@@ -12,6 +12,7 @@ import { SignUp } from "./pages/signup";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./context/authContext";
+import { EditProfile } from "./pages/editProfile";
 
 export const PrivateRoute = ({
   component: Component,
@@ -67,6 +68,10 @@ export const router = createBrowserRouter([
       {
         path: "home/draft",
         element: <Draft />,
+      },
+      {
+        path: "home/editprofile",
+        element: <EditProfile />,
       },
     ],
   },
