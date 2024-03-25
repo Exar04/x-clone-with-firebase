@@ -1,49 +1,90 @@
 import { useEffect } from "react";
-import { useState } from "react"
-import { usePostHandler } from "../hooks/postHandler"
+import { useState } from "react";
+import { usePostHandler } from "../hooks/postHandler";
+import { useLoggedInUserInfo } from "../hooks/userHandler";
 
-export function PostComponent(props) {
-    const [inputData, setinputData] = useState("")
-    const { sendPost } = usePostHandler()
+export const ListOfPosts = (props) => {
+    const dos = props.listOfPosts.map(post =>
+        < SinglePost post={post}/>
+    )
+    return (<div>{dos}</div>)
+}
 
-    return (
-        <div className=" w-screen h-full absolute top-0 flex justify-center z-30">
-            <div className="md:w-3/6 w-full md:h-96 h-72 md:m-0 m-2 z-10 relative md:-left-6 md:top-32 top-1">
+function SinglePost(props) {
+    const { permanentUsernameOfLoggedInUser } = useLoggedInUserInfo()
+    const { likeOrDislikePost } = usePostHandler()
 
-                {/* Animation div */}
-                <div className={` absolute w-full h-full -z-10  rounded-3xl blur-xl -bottom-1 -left-1 overflow-hidden`} style={{ width: '102%', height: '102%' }}>
-                    <div className=" bg-gradient-to-r from-sky-300 to-sky-700 w-full h-full  rounded-3xl blur-xl" style={{animation: "spin 5s linear infinite"}}></div>
-                    {/* <div className=" bg-gradient-to-r from-sky-300 to-black absolute rounded-3xl blur-xl animate-spin" style={{animation: "spin 4s linear infinite", width:'150%', height:'250%', right:'-30%', top:'-40%'}}></div> */}
-                </div>
+    const [isHoveredOverLike, setIsHoveredOverLike] = useState(false);
+    const [isHoveredOverRepost, setIsHoveredOverRepost] = useState(false);
+    const [isHoveredOverShare, setIsHoveredOverShare] = useState(false);
 
-                <div className=" bg-zinc-950 flex flex-col w-full h-full rounded-3xl border-0.5 border-slate-500">
+    const [postIsAlreadyLiked, setPostIsAlreadyLiked] = useState(false)
+    const [postIsAlreadyReposted, setPostIsAlreadyReposted] = useState(false)
 
-                <div className=" w-full h-14 flex justify-between items-center">
-                    <img width="50" height="50" className="ml-4 mt-2 hover:bg-zinc-800 rounded-full transition duration-300" src="https://img.icons8.com/ios/100/FFFFFF/multiply.png" alt="multiply" />
-                    <div className=" text-sky-500 font-bold mr-4 rounded-full hover:bg-zinc-800 p-2 text-lg ">Drafts</div>
-                </div>
-                <div className=" flex w-full flex-grow">
-                    <div className=" h-full w-18 px-2"><div className="bg-gray-700 w-16 h-16 rounded-full"></div></div> {/* profile pic area */}
-                    <div className=" flex-grow pr-7 pt-5 ">
-                        <textarea name="" id="" onChange={(e) => { setinputData(e.target.value)}} className=" h-full w-full bg-zinc-950 text-white text-2xl outline-none"></textarea>
-                    </div>
-                </div>
-                    <div className=" flex justify-between items-center p-2">
-                        <div className="flex">
-                            <div className=" rounded-full hover:bg-zinc-800 p-3"><img width="30" height="30"  src="https://img.icons8.com/material-rounded/48/0ea5e9/image.png" alt="image"/></div>
-                            <div className=" rounded-full hover:bg-zinc-800 p-3"><img width="30" height="30" src="https://img.icons8.com/fluency-systems-filled/96/0ea5e9/gif.png" alt="gif"/></div>
-                        </div>
-                        <div role={"button"} onClick={() => { sendPost(inputData); props.setIfUserWantsToPost(false) }} className="p-2 px-6 bg-sky-400 rounded-3xl">Post</div>
-                    </div>
+  const handleHoverOverLike = () => {
+    setIsHoveredOverLike(!isHoveredOverLike);
+  };
+  const handleHoverOverRepost = () => {
+    setIsHoveredOverRepost(!isHoveredOverRepost)
+  };
+  const handleHoverOverShare = () => {
+    setIsHoveredOverShare(!isHoveredOverShare)
+  };
 
+  const handleClickOnLikeButton = () => {
+    likeOrDislikePost(props.post.id, permanentUsernameOfLoggedInUser, postIsAlreadyLiked) 
+    setPostIsAlreadyLiked(!postIsAlreadyLiked)
+  }
 
-                </div>
+  useEffect(() => {
+    props.post.likes.map((user) => {
+        if (user == permanentUsernameOfLoggedInUser) {
+            setPostIsAlreadyLiked(true)
+        }
+    })
+  }, [permanentUsernameOfLoggedInUser])
 
-
+    return(
+        <div key={props.post.id} className="w-full h-fit border-b-0.5 text-white p-3 border-slate-600 flex-none">
+            <div className="flex items-center">
+                <div className="bg-gray-700 w-12 h-12 rounded-full mr-4"></div>
+                <div className=" text-xl font-bold">{props.post.permanentUsername}</div>
             </div>
-            <div onClick={() => { props.setIfUserWantsToPost(false) }} className=" backdrop-blur-sm  absolute w-full h-screen"></div>
+            <div className=" w-10/12 relative left-16 flex-wrap flex text-lg">{props.post.data}</div>
+            <div className="h-8 w-full mt-2 flex justify-evenly items-center">
+                <div onMouseEnter={handleHoverOverLike} onMouseLeave={handleHoverOverLike} onClick={() => handleClickOnLikeButton() } className={`    rounded-full transition  duration-200 flex justify-center items-center`}>
+                    <div className="hover:bg-pink-500 hover:blur-lg w-10 h-10 z-10 opacity-40 "/>
+                    {
+                        postIsAlreadyLiked ? (
+                            <img width="25" height="25" className=" absolute" src="https://img.icons8.com/ios-glyphs/60/ec4899/like--v1.png" alt="like--v1"/>
+                        ): (isHoveredOverLike ?
+                        
+                            <img width="25" height="25" className=" absolute " src="https://img.icons8.com/material-outlined/48/ec4899/like--v1.png" alt="like--v1" />
+                            : 
+                            <img width="25" height="25" className=" absolute " src="https://img.icons8.com/material-outlined/48/FFFFFF/like--v1.png" alt="like--v1" />
+                        )
+                    }
+                </div>
+                <div onMouseEnter={handleHoverOverRepost} onMouseLeave={handleHoverOverRepost} className={`    rounded-full transition  duration-200 flex justify-center items-center `}>
+                    <div className="hover:bg-sky-500/50 hover:blur-lg w-10 h-10 z-10 "/>
+                    {
+                        isHoveredOverRepost ?
+                    <img width="25" height="25" className=" absolute" src="https://img.icons8.com/material-rounded/48/0ea5e9/retweet.png" alt="retweet" />
+                            : 
+                    <img width="25" height="25" className=" absolute" src="https://img.icons8.com/material-rounded/48/FFFFFF/retweet.png" alt="retweet" />
+                    }
+                </div>
+                <div onMouseEnter={handleHoverOverShare} onMouseLeave={handleHoverOverShare} className={`    rounded-full transition  duration-200 flex justify-center items-center `}>
+                    <div className="hover:bg-green-500/50 hover:blur-lg w-10 h-10 z-10 " />
+                    {
+                        isHoveredOverShare ?
+                    <img width="30" height="30" className=" absolute" src="https://img.icons8.com/sf-regular/48/22c55e/circled-up.png" alt="circled-up" />
+                            : 
+                    <img width="30" height="30" className=" absolute" src="https://img.icons8.com/sf-regular/48/FFFFFF/circled-up.png" alt="circled-up" />
+                    }
+                </div>
+                <div><img width="23" height="23" src="https://img.icons8.com/fluency-systems-regular/48/FFFFFF/combo-chart.png" alt="combo-chart" /></div>
+            </div>
         </div>
-
-        // <div className=" bg-lime-500 w-full h-full fixed top-0"></div>
     )
 }

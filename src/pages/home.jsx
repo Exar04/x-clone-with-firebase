@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Outlet } from "react-router-dom"
 import { Sidebar } from "./sidebar"
-import { PostComponent } from "../components/post"
+import { SendPostComponent } from "../components/sendPost"
 
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
@@ -17,7 +17,7 @@ export function Home() {
                 <div className="h-full w-full overflow-scroll">
                     <Outlet />
                 </div>
-                {userWantsToPost ? <PostComponent setIfUserWantsToPost={setIfUserWantsToPost} /> : ""}
+                {userWantsToPost ? <SendPostComponent setIfUserWantsToPost={setIfUserWantsToPost} /> : ""}
             </div>
 
             <BottomNavBarForMobileView setIfUserWantsToPost={setIfUserWantsToPost} />

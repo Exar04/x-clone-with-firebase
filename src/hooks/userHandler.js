@@ -85,7 +85,6 @@ export const useUserHandler = () => {
           const id = doc.id;
           listOfDocs.push({ ...data, id });
         });
-        console.log(listOfDocs)
         callback(listOfDocs)
 
       })
