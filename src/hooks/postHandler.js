@@ -150,6 +150,7 @@ export const usePostHandler = () => {
           listOfDocs.push({...data, id})
         })
         callback(listOfDocs)
+        listOfDocs = []
       })
     } catch(err){
       console.error(err)

@@ -54,7 +54,9 @@ function SearchedDataComponent(props) {
     const listOfUsersDiv = listOfSearchedUsers.map(users => 
         <div role={"button"} key={users.id} className=" text-white p-2 hover:border-0.5 border-slate-500 hover:bg-black hover:scale-105 rounded-lg transition duration-100 ease-in-out">
             <Link to={`/home/profile/${users.permanentUsername}`} className=" w-full h-full flex items-center ">
-            <div className=" h-10 w-10 bg-slate-500 rounded-full"></div>
+            {users.profileImage? <img src={users.profileImage} className=" h-10 w-10 rounded-full" />:
+                <div className=" h-10 w-10 bg-slate-500 rounded-full"></div>
+            }
             <div className=" pl-5">
                 {users.permanentUsername}
             </div>

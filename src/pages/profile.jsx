@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
+import { ListOfPosts } from "../components/post"
 import { usePostHandler } from "../hooks/postHandler"
 import { useUserHandler, useLoggedInUserInfo } from "../hooks/userHandler"
 
@@ -7,9 +8,12 @@ export function Profile(props) {
     const params = useParams()
 
     const [isProfileOfLoggedInUser, set_If_It_Is_ProfileOfLoggedInUser] = useState(false)
-    const { permanentUsernameOfLoggedInUser, userIdOfLoggedInUser, listOfFollowingsOfLoggedInUser, listOfFollowersOfLoggedInUser, PfpImageUrlOfLoggedInUser, BackgroundImageUrlOfLoggedInUser } = useLoggedInUserInfo()
+    const { permanentUsernameOfLoggedInUser, userIdOfLoggedInUser, listOfFollowingsOfLoggedInUser, listOfFollowersOfLoggedInUser } = useLoggedInUserInfo()
+    const { getUser_Pfp_from_Username_Displayname, getUser_background_image_from_Username } = useUserHandler()
     const usernameInUrl = params.permanentUsername
 
+    const [ pfpImageUrl, setPfpImageUrl] = useState("")
+    const [ BackgroundImageUrl, setBackgroundImageUrl] = useState("")
     const [permanentUsernameOfUserWeSearchedFor,setPermanentUsernameOfUserWeSearchedFor ] = useState("")
     const [bioOfUserWeSearchedFor, setBioOfUserWeSearchedFor] = useState("")
     const [displayNameOfUserWeSearchedFor, setDisplayNameOfUserWeSearchedFor] = useState("") 
@@ -28,6 +32,16 @@ export function Profile(props) {
     }
 
     useEffect(() => {
+        getUser_Pfp_from_Username_Displayname(permanentUsernameOfUserWeSearchedFor, (pfpUrl) => {
+            setPfpImageUrl(pfpUrl)
+        })
+
+        getUser_background_image_from_Username(permanentUsernameOfUserWeSearchedFor, (pfpUrlo) => {
+            setBackgroundImageUrl(pfpUrlo)
+        })
+      }, [permanentUsernameOfUserWeSearchedFor])
+
+    useEffect(() => {
         if (permanentUsernameOfLoggedInUser == usernameInUrl) {
             set_If_It_Is_ProfileOfLoggedInUser(true)
         }
@@ -36,6 +50,7 @@ export function Profile(props) {
             setUserIdOfUserWeSearchedFor(userData.id)
             setBioOfUserWeSearchedFor(userData.bio)
         })
+
         getUserPosts(usernameInUrl, (posts) => {
             setListOfPosts([...posts])
         })
@@ -56,38 +71,26 @@ export function Profile(props) {
 
     }, [user_follows_loggedin_user, loggedin_user_follows_this_user]) 
 
-    
-    // I should convert this div in a seperate component cuz it is gonna be in profile, timeline and explore also
-    const listOfPostsDiv = listOfPosts.map(post =>
-        <div key={post.id} className="w-full h-fit  border-b-0.5 text-white p-3 border-slate-600 flex-none">
-            <div className="flex items-center">
-                <div className="bg-gray-700 w-12 h-12 rounded-full mr-4"></div>
-                <div className=" text-xl font-bold">{post.permanentUsername}</div>
-            </div>
-            <div className=" w-10/12 relative left-16 flex-wrap flex text-lg">{post.data}</div>
-        </div>
-    )
-
     return (
         <div className="flex lg:flex-row flex-col">
             <div className="bg-zinc-950  h-screen lg:basis-4/6 flex flex-col items-center overflow-scroll relative">
                 <div className="flex items-center h-20 w-full backdrop-blur-lg border-0 border-b-0.5 bg-black/70 border-slate-600 p-1 sticky top-0 z-10">
                     <img width="30" height="30" className=" ml-6" src="https://img.icons8.com/ios-filled/100/FFFFFF/back.png" alt="back" />
                     <div className="m-4">
-                        <div className=" text-white font-bold text-2xl ml-6">{ permanentUsernameOfUserWeSearchedFor}</div>
+                        <div className=" text-white font-bold text-2xl ml-6">{ permanentUsernameOfUserWeSearchedFor }</div>
                         <div className=" text-slate-500 text-sm ml-6">Number of post</div>
                     </div>
                 </div>
                 <div className=" w-full relative h-screen">
 {/* banner */} 
-                    {BackgroundImageUrlOfLoggedInUser ?
-                    <img className="w-full h-72" src={BackgroundImageUrlOfLoggedInUser} style={{ objectFit: 'cover'}}/>
+                    { BackgroundImageUrl ?
+                    <img className="w-full h-72" src={BackgroundImageUrl} style={{ objectFit: 'cover'}}/>
                     :
                     <div className=" bg-slate-700 w-full h-72"></div> 
                     }
 {/* Pfp */}
-                    {PfpImageUrlOfLoggedInUser ?
-                    <img className=" bg-slate-600 rounded-full w-48 h-48 absolute top-48 left-16 overflow-hidden" src={PfpImageUrlOfLoggedInUser} style={{ objectFit: 'cover'}}/>
+                    {pfpImageUrl ?
+                    <img className=" bg-slate-600 rounded-full w-48 h-48 absolute top-48 left-16 overflow-hidden" src={pfpImageUrl} style={{ objectFit: 'cover'}}/>
                     :
                     <div className=" bg-slate-600 rounded-full w-48 h-48 absolute top-48 left-16 "></div> 
                     }
@@ -120,15 +123,14 @@ export function Profile(props) {
                         <div>Media</div>
                         <div>Liked</div>
                     </div>
-                    {listOfPostsDiv}
+                    <ListOfPosts listOfPosts={listOfPosts}/>
                 </div>
             </div>
             <div className="bg-zinc-950 lg:h-screen lg:basis-2/6 w-0 h-0 border-l-0.5 border-0 border-slate-600 text-white overflow-scroll">
                 <div className=" m-4">
-                        <div className=" bg-red-500 w-full h-96 rounded-lg mb-4"></div>
-                        <div className=" bg-slate-400 w-full h-96 rounded-lg mb-4"></div>
-                        <div className=" bg-slate-500 w-full h-80 rounded-lg mb-4"></div>
-                        <div className=" bg-slate-500 w-full h-40 rounded-lg mb-4"></div>
+                        <div className=" bg-zinc-900 w-full h-96 ring-1 ring-slate-700 rounded-lg mb-4"></div>
+                        <div className=" bg-zinc-900 w-full h-96 ring-1 ring-slate-700 rounded-lg mb-4"></div>
+                        <div className=" bg-zinc-900 w-full h-96 ring-1 ring-slate-700 rounded-lg mb-4"></div>
                 </div>
             </div>
         </div>

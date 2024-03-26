@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { usePostHandler } from "../hooks/postHandler";
-import { useLoggedInUserInfo } from "../hooks/userHandler";
+import { useLoggedInUserInfo, useUserHandler } from "../hooks/userHandler";
 
 export const ListOfPosts = (props) => {
     const dos = props.listOfPosts.map(post =>
@@ -13,6 +13,7 @@ export const ListOfPosts = (props) => {
 function SinglePost(props) {
     const { permanentUsernameOfLoggedInUser } = useLoggedInUserInfo()
     const { likeOrDislikePost } = usePostHandler()
+    const { getUser_Pfp_from_Username_Displayname } = useUserHandler()
 
     const [isHoveredOverLike, setIsHoveredOverLike] = useState(false);
     const [isHoveredOverRepost, setIsHoveredOverRepost] = useState(false);
@@ -20,6 +21,8 @@ function SinglePost(props) {
 
     const [postIsAlreadyLiked, setPostIsAlreadyLiked] = useState(false)
     const [postIsAlreadyReposted, setPostIsAlreadyReposted] = useState(false)
+
+    const [pfpImageUrl, setPfpImageUrl] = useState("")
 
   const handleHoverOverLike = () => {
     setIsHoveredOverLike(!isHoveredOverLike);
@@ -37,6 +40,12 @@ function SinglePost(props) {
   }
 
   useEffect(() => {
+    getUser_Pfp_from_Username_Displayname(props.post.permanentUsername, (pfpUrl) => {
+        setPfpImageUrl(pfpUrl)
+    })
+  }, [])
+
+  useEffect(() => {
     props.post.likes.map((user) => {
         if (user == permanentUsernameOfLoggedInUser) {
             setPostIsAlreadyLiked(true)
@@ -47,13 +56,17 @@ function SinglePost(props) {
     return(
         <div key={props.post.id} className="w-full h-fit border-b-0.5 text-white p-3 border-slate-600 flex-none">
             <div className="flex items-center">
-                <div className="bg-gray-700 w-12 h-12 rounded-full mr-4"></div>
+                {
+                    pfpImageUrl? <img src={pfpImageUrl} className=" w-12 h-12 rounded-full mr-4" /> :
+                    <div className="bg-gray-700 w-12 h-12 rounded-full mr-4"></div>
+                }
+
                 <div className=" text-xl font-bold">{props.post.permanentUsername}</div>
             </div>
             <div className=" w-10/12 relative left-16 flex-wrap flex text-lg">{props.post.data}</div>
             <div className="h-8 w-full mt-2 flex justify-evenly items-center">
                 <div onMouseEnter={handleHoverOverLike} onMouseLeave={handleHoverOverLike} onClick={() => handleClickOnLikeButton() } className={`    rounded-full transition  duration-200 flex justify-center items-center`}>
-                    <div className="hover:bg-pink-500 hover:blur-lg w-10 h-10 z-10 opacity-40 "/>
+                    <div className="md:hover:bg-pink-500 hover:blur-lg w-10 h-10 z-10 opacity-40 "/>
                     {
                         postIsAlreadyLiked ? (
                             <img width="25" height="25" className=" absolute" src="https://img.icons8.com/ios-glyphs/60/ec4899/like--v1.png" alt="like--v1"/>

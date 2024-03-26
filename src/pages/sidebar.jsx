@@ -6,7 +6,7 @@ import { useLoggedInUserInfo } from "../hooks/userHandler"
 
 export function Sidebar(props) {
     const [clicledOnLoggedInUser, setClicledOnLoggedInUser] = useState(false)
-    const { permanentUsernameOfLoggedInUser } = useLoggedInUserInfo(false)
+    const { permanentUsernameOfLoggedInUser, PfpImageUrlOfLoggedInUser } = useLoggedInUserInfo(false)
     const { logOut } = useAuth()
 
     const [SidebarPages, setSidebarPages] = useState([])
@@ -50,8 +50,10 @@ export function Sidebar(props) {
             </div>
             {logOutAndEditProfileComponent}
             <div role={"button"} onClick={() => { setClicledOnLoggedInUser(!clicledOnLoggedInUser) }} className="h-24 flex-none text-xl text-white flex items-center p-4 m-4 justify-between">
-                <div>Username</div>
-                <div className="bg-gray-700 w-12 h-12 rounded-full"></div>
+                <div>{permanentUsernameOfLoggedInUser}</div>
+                { PfpImageUrlOfLoggedInUser? <img src={PfpImageUrlOfLoggedInUser} className=" w-12 h-12 rounded-full"/>:
+                    <div className="bg-gray-700 w-12 h-12 rounded-full"></div>
+                }
             </div>
         </div>
 

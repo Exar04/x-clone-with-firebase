@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
           username: "",
           profileImage:"",
           backgroundImage:"",
-          profiession: "",
+          profession: "",
           Birthdate: "",
           bio: "",
           createdAt: serverTimestamp(),

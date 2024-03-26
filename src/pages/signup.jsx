@@ -29,7 +29,7 @@ export function SignUp() {
       return
     }
 
-    if (permanentUsername.length > 3) {
+    if (permanentUsername.length < 3) {
       alert("Username must be atleast of 3 characters")
       return
     }

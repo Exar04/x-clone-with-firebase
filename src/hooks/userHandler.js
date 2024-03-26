@@ -7,8 +7,43 @@ export const useUserHandler = () => {
   const { currentUser } = useAuth();
   const usersCollectionRef = collection(db, "users");
 
-  const getUser_Pfp_Username_Displayname = async () => {
+  const getUser_Pfp_from_Username_Displayname = async (PUserName, callback) => {
+    let unsubscribe
+    const q = query(usersCollectionRef, where("permanentUsername", "==", PUserName));
 
+    unsubscribe = onSnapshot(q, (snapshot) => {
+        let userData = null;
+        if (snapshot.size === 1) {
+            const docDeez = snapshot.docs[0];
+            userData = { id: docDeez.id, ...docDeez.data() };
+        }
+
+        if (userData && userData.backgroundImage) {
+          callback(userData.profileImage)
+        }else{
+          callback("")
+        }
+    })
+    return () => unsubscribe()
+  }
+
+  const getUser_background_image_from_Username = async (PUserName, callback) => {
+    let unsubscribe
+    const q = query(usersCollectionRef, where("permanentUsername", "==", PUserName));
+
+    unsubscribe = onSnapshot(q, (snapshot) => {
+        let userData = null;
+        if (snapshot.size === 1) {
+            const docDeez = snapshot.docs[0];
+            userData = { id: docDeez.id, ...docDeez.data() };
+        }
+        if (userData && userData.backgroundImage) {
+          callback(userData.backgroundImage);
+       }else{
+        callback("")
+       }
+    })
+    return () => unsubscribe()
   }
 
   const followOrUnFollowThisUser = async (userIdOfLoggedInUser, userIdOfOtherUser, permanentUsernameOfLoggedInUser, permanentUsernameOfOtherUser,  logged_in_user_follows_this_user) => {
@@ -97,7 +132,7 @@ export const useUserHandler = () => {
     }
   }
 
-  return { getSearchedUser, getUserProfileData, followOrUnFollowThisUser };
+  return { getSearchedUser, getUserProfileData, followOrUnFollowThisUser, getUser_Pfp_from_Username_Displayname, getUser_background_image_from_Username };
 };
 
 export const useLoggedInUserInfo = () => {
@@ -131,8 +166,8 @@ export const useLoggedInUserInfo = () => {
         setChangableUsernameOfLoggedInUser(userData.username)
         setListOfFollowersOfLoggedInUser(userData.followers)
         setListOfFollowingsOfLoggedInUser(userData.following)
-        setPfpImageUrlOfLoggedInUser(userData.profileImage)
-        setBackgroundImageUrlOfLoggedInUser(userData.backgroundImage)
+        // setPfpImageUrlOfLoggedInUser(userData.profileImage)
+        // setBackgroundImageUrlOfLoggedInUser(userData.backgroundImage)
       })
     } catch(err){
       console.error(err)
