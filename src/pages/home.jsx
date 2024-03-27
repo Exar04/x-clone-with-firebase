@@ -20,7 +20,7 @@ export function Home() {
                 {userWantsToPost ? <SendPostComponent setIfUserWantsToPost={setIfUserWantsToPost} /> : ""}
             </div>
 
-            <BottomNavBarForMobileView setIfUserWantsToPost={setIfUserWantsToPost} />
+            <BottomNavBarForMobileView setIfUserWantsToPost={setIfUserWantsToPost} userWantsToPost={userWantsToPost}/>
         </div>
     )
 }

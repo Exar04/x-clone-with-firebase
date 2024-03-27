@@ -19,7 +19,7 @@ export function Timeline(props) {
                 <div role={"button"} className="flex justify-around items-center flex-none h-16 w-full backdrop-blur-lg border-0 border-b-0.5 border-slate-600 sticky top-0 z-10 text-white text-xl">
                     <div onClick={(e) => { setOnForYou(true)}} className=" relative flex-1 flex justify-center items-center h-full"><div className={`absolute bottom-0 ${onForYou? "bg-sky-500" : ""} rounded-full h-1.5 w-3/4 `}></div>For you</div>
                     <div onClick={(e) => { setOnForYou(false)}}className=" relative flex-1 flex justify-center items-center h-full"><div className={`absolute bottom-0 ${onForYou? "": "bg-sky-500" }  rounded-full h-1.5 w-3/4`}></div>Following</div>
-                    { PfpImageUrlOfLoggedInUser ? <img onClick={() => { setIfPopupNavbarOpen(true)}} className=" rounded-full w-12 h-12 md:hidden" src={PfpImageUrlOfLoggedInUser}/>:<div className="rounded-full w-12 h-12 bg-slate-700 md:hidden"></div> }
+                    { PfpImageUrlOfLoggedInUser ? <img onClick={() => { setIfPopupNavbarOpen(true)}} className=" rounded-full w-12 h-12 md:hidden mr-3" src={PfpImageUrlOfLoggedInUser}/>:<div className="rounded-full w-12 h-12 bg-slate-700 md:hidden mr-3"></div> }
                 </div>
                 { onForYou ?<ListOfPosts listOfPosts={TimelineForYouposts}/>  : <ListOfPosts listOfPosts={TimelineFollowingposts}/> }
                 { isPopupNavBarOpen? < PopUpNavBox setIfPopupNavBarOpen={setIfPopupNavbarOpen} />:""}

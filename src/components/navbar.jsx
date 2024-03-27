@@ -9,7 +9,7 @@ export function BottomNavBarForMobileView(props) {
         { id: 2, pagevar: "Explore", link: "home/explore", icon: "https://img.icons8.com/ios-glyphs/90/FFFFFF/search--v1.png" },
         { id: 3, pagevar: "Messages", link: "home/messages", icon: "https://img.icons8.com/ios-glyphs/90/FFFFFF/messaging-.png" },
         { id: 4, pagevar: "Notification", link: "home/notification", icon: "https://img.icons8.com/fluency-systems-filled/96/FFFFFF/appointment-reminders.png" },
-        { id: 5, pagevar: "ExtraHiddenOne", link: "", icon: "" }
+        // { id: 5, pagevar: "ExtraHiddenOne", link: "", icon: "" }
         // { id: 5, pagevar: "Drafts", link: "home/draft", icon: "https://img.icons8.com/pastel-glyph/64/FFFFFF/edit-file--v1.png" }
     ])
 
@@ -26,10 +26,15 @@ export function BottomNavBarForMobileView(props) {
         <div className="md:h-0 h-16 flex-none w-screen bg-zinc-950 border-t-0.5 border-slate-600 ">
             <div className=" flex h-full justify-around items-center">
                 {listOfNavi}
+                <div onClick={() => { props.setIfUserWantsToPost(true) }} className=" rounded-full w-12 h-12 md:w-0 md:h-0 bg-sk500 flex justify-center items-center">
+                    { props.userWantsToPost?<img width="50" height="50" className=" z-30" src="https://img.icons8.com/glyph-neue/64/0ea5e9/quill-pen.png" alt="quill-pen" />:
+                        <img width="40" height="40" src="https://img.icons8.com/glyph-neue/64/FFFFFF/quill-pen.png" alt="quill-pen" />
+                    }
+                </div>
             </div>
-            <div onClick={() => { props.setIfUserWantsToPost(true) }} className=" absolute right-5 bottom-6 rounded-full w-20 h-20 md:w-0 md:h-0 bg-sky-500 flex justify-center items-center">
+            {/* <div onClick={() => { props.setIfUserWantsToPost(true) }} className=" absolute right-5 bottom-6 rounded-full w-20 h-20 md:w-0 md:h-0 bg-sky-500 flex justify-center items-center">
             <img width="48" height="48" src="https://img.icons8.com/android/48/FFFFFF/plus.png" alt="plus"/>
-            </div>
+            </div> */}
         </div>
     )
 }
