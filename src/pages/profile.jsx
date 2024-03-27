@@ -9,7 +9,7 @@ export function Profile(props) {
 
     const [isProfileOfLoggedInUser, set_If_It_Is_ProfileOfLoggedInUser] = useState(false)
     const { permanentUsernameOfLoggedInUser, userIdOfLoggedInUser, listOfFollowingsOfLoggedInUser, listOfFollowersOfLoggedInUser } = useLoggedInUserInfo()
-    const { getUser_Pfp_from_Username_Displayname, getUser_background_image_from_Username } = useUserHandler()
+    const { getUser_Pfp_from_Username_Displayname, getUser_background_image_from_Username, getUser_display_name_from_permanent_username } = useUserHandler()
     const usernameInUrl = params.permanentUsername
 
     const [ pfpImageUrl, setPfpImageUrl] = useState("")
@@ -17,6 +17,7 @@ export function Profile(props) {
     const [permanentUsernameOfUserWeSearchedFor,setPermanentUsernameOfUserWeSearchedFor ] = useState("")
     const [bioOfUserWeSearchedFor, setBioOfUserWeSearchedFor] = useState("")
     const [displayNameOfUserWeSearchedFor, setDisplayNameOfUserWeSearchedFor] = useState("") 
+    const [professionOfUserWeSearchedFor, setProfessionOfUserWeSearchedFor] = useState("")
     const [userIdOfUserWeSearchedFor, setUserIdOfUserWeSearchedFor] = useState("")
     const [listOfPosts, setListOfPosts] = useState([])
     const [ loggedin_user_follows_this_user ,set_loggedin_user_follows_this_user] = useState(false)
@@ -32,6 +33,9 @@ export function Profile(props) {
     }
 
     useEffect(() => {
+        // getUser_display_name_from_permanent_username(permanentUsernameOfUserWeSearchedFor, (username) => {
+        //     setDisplayNameOfUserWeSearchedFor(username)
+        // })
         getUser_Pfp_from_Username_Displayname(permanentUsernameOfUserWeSearchedFor, (pfpUrl) => {
             setPfpImageUrl(pfpUrl)
         })
@@ -39,7 +43,7 @@ export function Profile(props) {
         getUser_background_image_from_Username(permanentUsernameOfUserWeSearchedFor, (pfpUrlo) => {
             setBackgroundImageUrl(pfpUrlo)
         })
-      }, [permanentUsernameOfUserWeSearchedFor])
+      }, [permanentUsernameOfUserWeSearchedFor, usernameInUrl ])
 
     useEffect(() => {
         if (permanentUsernameOfLoggedInUser == usernameInUrl) {
@@ -47,6 +51,8 @@ export function Profile(props) {
         }
         getUserProfileData(usernameInUrl, (userData) => {
             setPermanentUsernameOfUserWeSearchedFor(userData.permanentUsername)
+            setProfessionOfUserWeSearchedFor(userData.profession)
+            setDisplayNameOfUserWeSearchedFor(userData.username)
             setUserIdOfUserWeSearchedFor(userData.id)
             setBioOfUserWeSearchedFor(userData.bio)
         })
@@ -77,7 +83,7 @@ export function Profile(props) {
                 <div className="flex items-center h-20 w-full backdrop-blur-lg border-0 border-b-0.5 bg-black/70 border-slate-600 p-1 sticky top-0 z-10">
                     <img width="30" height="30" className=" ml-6" src="https://img.icons8.com/ios-filled/100/FFFFFF/back.png" alt="back" />
                     <div className="m-4">
-                        <div className=" text-white font-bold text-2xl ml-6">{ permanentUsernameOfUserWeSearchedFor }</div>
+                        <div className=" text-white font-bold text-2xl ml-6">{ displayNameOfUserWeSearchedFor? displayNameOfUserWeSearchedFor : permanentUsernameOfUserWeSearchedFor }</div>
                         <div className=" text-slate-500 text-sm ml-6">Number of post</div>
                     </div>
                 </div>
@@ -97,7 +103,7 @@ export function Profile(props) {
                     <div className=" h-96">
                         <div className=" h-28"></div> {/* just white space between pfp n content */}
                         <div className="m-3 flex items-baseline ">
-                            <div className=" ml-6 text-2xl font-bold text-white">Username</div>
+                            <div className=" ml-6 text-2xl font-bold text-white">{displayNameOfUserWeSearchedFor}</div>
                             <div className=" ml-6 text-xl  text-slate-600">@{permanentUsernameOfUserWeSearchedFor}</div>
                             { isProfileOfLoggedInUser ? null :
                             <div role={"button"} onClick={(e) => { clickedFollowButton() }} className={`${ (FollowButtonText === "Following")?"text-white ring-2 ring-pink-500 bg-black":"bg-white" } ml-6 px-4 py-1 rounded-lg hover:bg-black hover:text-white hover:ring-2 hover:ring-pink-500 ring-inset transition duration-300 ease-in-out`}>
@@ -107,7 +113,7 @@ export function Profile(props) {
                         </div>
                         <div className=" ml-9 mb-3 text-xl  text-white">{bioOfUserWeSearchedFor}</div>
                         <div className="lg:flex ml-9 text-xl">
-                            <div className="flex text-slate-600 items-center mr-5"> <img width="25" height="25" className=" relative bottom-1 mr-2" src="https://img.icons8.com/pastel-glyph/64/404040/suitcase--v3.png" alt="suitcase--v3"/> Profession</div>
+                            <div className="flex text-slate-600 items-center mr-5"> <img width="25" height="25" className=" relative bottom-1 mr-2" src="https://img.icons8.com/pastel-glyph/64/404040/suitcase--v3.png" alt="suitcase--v3"/> {professionOfUserWeSearchedFor? professionOfUserWeSearchedFor: "No work"}</div>
                             <div className="flex text-slate-600 items-center mr-5"><img width="25" height="20" className=" relative bottom-0.5 mr-1" src="https://img.icons8.com/material-rounded/48/404040/cupcake.png" alt="cupcake"/> <div> Birth date</div></div>
                             <div className="flex text-slate-600 items-center"><img width="20" height="20" className=" relative bottom-0.5 mr-1" src="https://img.icons8.com/external-sbts2018-solid-sbts2018/58/404040/external-calender-diwali-sbts2018-solid-sbts2018-2.png" alt="external-calender-diwali-sbts2018-solid-sbts2018-2"/><div>Joined At</div></div>
                         </div>

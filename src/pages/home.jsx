@@ -11,7 +11,7 @@ export function Home() {
     const [userWantsToPost, setIfUserWantsToPost] = useState(false)
     return (
         <div className="flex flex-col w-screen h-dvh">
-            <TopNavBarForMobileView />
+            {/* <TopNavBarForMobileView /> */}
             <div className="flex-grow w-full flex overflow-scroll">
                 <Sidebar setIfUserWantsToPost={setIfUserWantsToPost} />
                 <div className="h-full w-full overflow-scroll">

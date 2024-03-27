@@ -7,6 +7,26 @@ export const useUserHandler = () => {
   const { currentUser } = useAuth();
   const usersCollectionRef = collection(db, "users");
 
+  const getUser_display_name_from_permanent_username = async (PUserName, callback) => {
+    let unsubscribe
+    const q = query(usersCollectionRef, where("permanentUsername", "==", PUserName));
+
+    unsubscribe = onSnapshot(q, (snapshot) => {
+        let userData = null;
+        if (snapshot.size === 1) {
+            const docDeez = snapshot.docs[0];
+            userData = { id: docDeez.id, ...docDeez.data() };
+        }
+
+        if (userData && userData.username) {
+          callback(userData.username)
+        }else{
+          callback("")
+        }
+    })
+    return () => unsubscribe()
+  }
+
   const getUser_Pfp_from_Username_Displayname = async (PUserName, callback) => {
     let unsubscribe
     const q = query(usersCollectionRef, where("permanentUsername", "==", PUserName));
@@ -132,7 +152,7 @@ export const useUserHandler = () => {
     }
   }
 
-  return { getSearchedUser, getUserProfileData, followOrUnFollowThisUser, getUser_Pfp_from_Username_Displayname, getUser_background_image_from_Username };
+  return { getSearchedUser, getUserProfileData, followOrUnFollowThisUser, getUser_Pfp_from_Username_Displayname, getUser_background_image_from_Username, getUser_display_name_from_permanent_username };
 };
 
 export const useLoggedInUserInfo = () => {
@@ -166,7 +186,7 @@ export const useLoggedInUserInfo = () => {
         setChangableUsernameOfLoggedInUser(userData.username)
         setListOfFollowersOfLoggedInUser(userData.followers)
         setListOfFollowingsOfLoggedInUser(userData.following)
-        // setPfpImageUrlOfLoggedInUser(userData.profileImage)
+        setPfpImageUrlOfLoggedInUser(userData.profileImage)
         // setBackgroundImageUrlOfLoggedInUser(userData.backgroundImage)
       })
     } catch(err){
