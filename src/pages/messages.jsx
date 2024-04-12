@@ -1,22 +1,6 @@
 import { useState } from "react"
 
 export function Messages() {
-    const [Posts, setPosts] = useState([
-        { id: 1, Username: "Yash", data: "this is my first twitt" },
-        { id: 2, Username: "Vinyas", data: "this is my first twitt" },
-        { id: 3, Username: "Sajal", data: "this is my first twitt" },
-    ])
-
-    const listOfPostsDiv = Posts.map(post =>
-        <div key={post.id} className="w-11/12 h-fit border-0.5 text-white p-3 border-slate-400 rounded-lg m-3 flex-none">
-            <div className="flex items-center">
-                <div className="bg-gray-700 w-12 h-12 rounded-full mr-4"></div>
-                <div>{post.Username}</div>
-            </div>
-            <div className=" w-10/12 relative left-16 flex-wrap flex">{post.data}</div>
-        </div>
-    )
-
     const [Users, setUsers] = useState([
         {id:1, Username:"yash", handleId:"yash123", img:"", recentMessage:"hey wasup"},
         {id:2, Username:"Om", handleId:"om78osho", img:"", recentMessage:"hey wasup"},
@@ -36,13 +20,24 @@ export function Messages() {
 
     return(
         <div className="flex lg:flex-row flex-col">
-            <div className="bg-zinc-950 h-screen lg:basis-2/6 border-r-0.5 border-0 border-slate-600 text-white justify-center overflow-scroll">
+            <div className="bg-zinc-950 h-screen lg:basis-2/6 border-r-0.5 border-0 border-slate-600 text-white justify-center overflow-scroll no-scrollbar">
                 {listOfUsersDiv}
             </div>
-            <div className="bg-zinc-950  h-screen lg:basis-4/6 flex flex-col items-center overflow-scroll">
-                {listOfPostsDiv}
-            </div>
+                <Chat />
         </div>
 
+    )
+}
+
+function Chat() {
+    return(
+         <div className="bg-zinc-950  h-screen lg:basis-4/6 flex flex-col overflow-scroll no-scrollbar">
+            <div className=" bg-black border-b-0.5 text-white p-4 text-lg"> Username of chatter </div>
+            <div className=" flex-grow bg-black overflow-scroll">
+            </div>
+            <div className=" bg-black border-t-0.5 p-2 text-white">
+                <textarea className="w-full h-full rounded-full bg-black border-0.5 outline-none border-slate-500"></textarea>
+            </div>
+         </div>
     )
 }

@@ -24,8 +24,17 @@ export function SignUp() {
       return !snapshot.empty
   }
 
+  function containsCapitalLetters(str) {
+    return /[A-Z]/.test(str);
+  }
+
   async function handleSubmit() {
     if (loading !== false) {
+      return
+    }
+
+    if (containsCapitalLetters(permanentUsername)) {
+      alert(" only lowercase letters allowed in username ")
       return
     }
 

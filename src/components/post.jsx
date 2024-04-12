@@ -54,27 +54,27 @@ function SinglePost(props) {
   }, [permanentUsernameOfLoggedInUser])
 
     return(
-        <div key={props.post.id} className="w-full h-fit border-b-0.5 text-white p-3 border-slate-600 flex-none">
+        <div key={props.post.id} className="w-full h-fit border-b-0.5 text-white md:p-3 p-2  border-slate-600 flex-none">
             <div className="flex items-center">
                 {
-                    pfpImageUrl? <img src={pfpImageUrl} className=" w-12 h-12 rounded-full mr-4" /> :
-                    <div className="bg-gray-700 w-12 h-12 rounded-full mr-4"></div>
+                    pfpImageUrl? <img src={pfpImageUrl} className=" md:w-12 md:h-12 w-10 h-10 rounded-full mr-4" /> :
+                    <div className="bg-gray-700 md:w-12 md:h-12 w-10 h-10 rounded-full mr-4"></div>
                 }
 
-                <div className=" text-xl font-bold">{props.post.permanentUsername}</div>
+                <div className=" md:text-xl text-lg font-bold">{props.post.permanentUsername}</div>
             </div>
-            <div className=" w-10/12 relative left-16 flex-wrap flex text-lg">{props.post.data}</div>
-            <div className="h-8 w-full mt-2 flex justify-evenly items-center">
+            <div className=" w-10/12 relative md:left-16 left-14 flex-wrap flex md:font-normal font-light">{props.post.data}</div>
+            <div className="md:h-8 h-4 w-full mt-2 flex justify-evenly  items-center">
                 <div onMouseEnter={handleHoverOverLike} onMouseLeave={handleHoverOverLike} onClick={() => handleClickOnLikeButton() } className={`    rounded-full transition  duration-200 flex justify-center items-center`}>
                     <div className="md:hover:bg-pink-500 hover:blur-lg w-10 h-10 z-10 opacity-40 "/>
                     {
                         postIsAlreadyLiked ? (
-                            <img width="25" height="25" className=" absolute" src="https://img.icons8.com/ios-glyphs/60/ec4899/like--v1.png" alt="like--v1"/>
+                            <img className="md:w-6 md:h-6 h-5 w-5 absolute" src="https://img.icons8.com/ios-glyphs/60/ec4899/like--v1.png" alt="like--v1"/>
                         ): (isHoveredOverLike ?
                         
-                            <img width="25" height="25" className=" absolute " src="https://img.icons8.com/material-outlined/48/ec4899/like--v1.png" alt="like--v1" />
+                            <img  className=" md:w-6 md:h-6 h-5 w-5 absolute " src="https://img.icons8.com/material-outlined/48/ec4899/like--v1.png" alt="like--v1" />
                             : 
-                            <img width="25" height="25" className=" absolute " src="https://img.icons8.com/material-outlined/48/FFFFFF/like--v1.png" alt="like--v1" />
+                            <img  className=" md:w-6 md:h-6 h-5 w-5 absolute " src="https://img.icons8.com/material-outlined/48/FFFFFF/like--v1.png" alt="like--v1" />
                         )
                     }
                 </div>
@@ -82,21 +82,21 @@ function SinglePost(props) {
                     <div className="hover:bg-sky-500/50 hover:blur-lg w-10 h-10 z-10 "/>
                     {
                         isHoveredOverRepost ?
-                    <img width="25" height="25" className=" absolute" src="https://img.icons8.com/material-rounded/48/0ea5e9/retweet.png" alt="retweet" />
+                    <img className="md:w-6 md:h-6 h-5 w-5 absolute" src="https://img.icons8.com/material-rounded/48/0ea5e9/retweet.png" alt="retweet" />
                             : 
-                    <img width="25" height="25" className=" absolute" src="https://img.icons8.com/material-rounded/48/FFFFFF/retweet.png" alt="retweet" />
+                    <img className="md:w-6 md:h-6 h-5 w-5 absolute" src="https://img.icons8.com/material-rounded/48/FFFFFF/retweet.png" alt="retweet" />
                     }
                 </div>
                 <div onMouseEnter={handleHoverOverShare} onMouseLeave={handleHoverOverShare} className={`    rounded-full transition  duration-200 flex justify-center items-center `}>
                     <div className="hover:bg-green-500/50 hover:blur-lg w-10 h-10 z-10 " />
                     {
                         isHoveredOverShare ?
-                    <img width="30" height="30" className=" absolute" src="https://img.icons8.com/sf-regular/48/22c55e/circled-up.png" alt="circled-up" />
+                    <img className="md:w-8 md:h-8 h-6 w-6 absolute" src="https://img.icons8.com/sf-regular/48/22c55e/circled-up.png" alt="circled-up" />
                             : 
-                    <img width="30" height="30" className=" absolute" src="https://img.icons8.com/sf-regular/48/FFFFFF/circled-up.png" alt="circled-up" />
+                    <img className="md:w-8 md:h-8 h-6 w-6 absolute" src="https://img.icons8.com/sf-regular/48/FFFFFF/circled-up.png" alt="circled-up" />
                     }
                 </div>
-                <div><img width="23" height="23" src="https://img.icons8.com/fluency-systems-regular/48/FFFFFF/combo-chart.png" alt="combo-chart" /></div>
+                <div><img className="md:w-6 md:h-6 h-5 w-5" src="https://img.icons8.com/fluency-systems-regular/48/FFFFFF/combo-chart.png" alt="combo-chart" /></div>
             </div>
         </div>
     )

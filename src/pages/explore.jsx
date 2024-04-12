@@ -15,11 +15,11 @@ export function Explore() {
     }
     return (
         <div className="flex h-full bg-zinc-950">
-            <div className="bg-zinc-950  h-full w-full flex flex-col overflow-scroll relative">
+            <div className="bg-zinc-950  h-full w-full flex flex-col overflow-scroll no-scrollbar relative">
                 <div className=" w-full h-16 bg-zinc-950 p-1 flex flex-col justify-center items-center relative">
-                    <div className="w-11/12 h-full flex relative">
-                        <input type="text" ref={inputRef} onChange={(e) => { setInputData(e.target.value) }} className=" w-full h-full text-white rounded-full bg-zinc-950 border-2  border-slate-500 p-5 text-xl focus:border-slate-200 duration-300 outline-1 outline-none" placeholder="Search..." />
-                        {inputData.length ? <img width="42" height="42" onClick={(e) => { ResetInputData() }} className="ml-4 mt-2 hover:bg-zinc-800 rounded-full absolute -top-0.5 right-2 z-10 transition duration-300" src="https://img.icons8.com/ios/100/FFFFFF/multiply.png" alt="multiply" /> : null}
+                    <div className="w-11/12 md:h-full h-4/5 flex relative">
+                        <input type="text" ref={inputRef} onChange={(e) => { setInputData(e.target.value) }} className=" w-full h-full text-white rounded-full bg-zinc-950 border-2  border-slate-500 p-5 md:text-xl focus:border-slate-200 duration-300 outline-1 outline-none" placeholder="Search..." />
+                        {inputData.length ? <img onClick={(e) => { ResetInputData() }} className={` md:w-11 md:h-11 w-8 h-8 ml-4 md:mt-2 ${window.innerWidth >= 768 ? 'hover:bg-zinc-800' : 'bg-zinc-800'} rounded-full absolute md:-top-0.5 top-1.5 right-2 z-10 transition duration-300`} src="https://img.icons8.com/ios/100/FFFFFF/multiply.png" alt="multiply" /> : null}
                     </div>
                     {(inputData.length > 0) ?<SearchedDataComponent inputData={inputData}/>:null}
                 </div>
@@ -29,7 +29,7 @@ export function Explore() {
                 </div>
             </div>
 
-            <div className=" xl:w-96 w-0 h-0 xl:h-screen overflow-scroll xl:p-3 p-0 xl:border-l-0.5 border-0 border-slate-600 flex-none">
+            <div className=" xl:w-96 w-0 h-0 xl:h-screen overflow-scroll no-scrollbar xl:p-3 p-0 xl:border-l-0.5 border-0 border-slate-600 flex-none">
                     <div className=" bg-slate-500 w-full h-96 rounded-lg mb-4"></div>
                     <div className=" bg-slate-400 w-full h-96 rounded-lg mb-4"></div>
                     <div className=" bg-slate-500 w-full h-80 rounded-lg mb-4"></div>
@@ -46,7 +46,7 @@ function SearchedDataComponent(props) {
 
 
     useEffect(() => {
-        getSearchedUser(props.inputData,(users) => {
+        getSearchedUser(props.inputData.toLowerCase(),(users) => {
             setlistOfSearchedUsers([...users])
         })
     }, [props.inputData])

@@ -1,0 +1,28 @@
+{
+  "hosting": {
+    "redirects":[
+      {
+        "source": "/home/*",
+        "destination":"/",
+        "type": 301
+      },
+      {
+        "source": "/*",
+        "destination":"/",
+        "type": 301
+      },
+      {
+        "source": "/home/profile/*",
+        "destination":"/",
+        "type": 301
+      }
+
+        ],
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

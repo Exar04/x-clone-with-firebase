@@ -187,7 +187,7 @@ export const useLoggedInUserInfo = () => {
         setListOfFollowersOfLoggedInUser(userData.followers)
         setListOfFollowingsOfLoggedInUser(userData.following)
         setPfpImageUrlOfLoggedInUser(userData.profileImage)
-        // setBackgroundImageUrlOfLoggedInUser(userData.backgroundImage)
+        setBackgroundImageUrlOfLoggedInUser(userData.backgroundImage)
       })
     } catch(err){
       console.error(err)

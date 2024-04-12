@@ -44,7 +44,7 @@ export function Sidebar(props) {
     return (
         <div className="md:w-96 w-0 flex-none bg-zinc-950 md:h-screen flex flex-col md:border-r-0.5 border-0 border-slate-600">{/*SideBar*/}
             <div className=" text-3xl text-white font-bold font-mono ml-10 m-4 flex-none flex items-center"><img width="50" height="50" src="https://img.icons8.com/ios-filled/100/FFFFFF/share-2.png" alt="share-2" />ConnectSphere</div>
-            <div className=" flex-grow overflow-scroll ml-7">
+            <div className=" flex-grow overflow-scroll no-scrollbar ml-7">
                 {listOfSidebarPagesDiv}
                 <div onClick={() => { props.setIfUserWantsToPost(true) }} className="p-3 m-2 text-2xl text-white hover:bg-sky-400 bg-sky-500 rounded-full text-center">Post</div>
             </div>
