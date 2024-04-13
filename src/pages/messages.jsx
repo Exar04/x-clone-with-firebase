@@ -55,7 +55,7 @@ function Chat() {
 
     return (
 
-         <div className={`flex flex-col ${isKeyboardOpen? "h-3/5":"h-full"} w-full fixed lg:relative`}>
+         <div className={`flex flex-col ${isKeyboardOpen? "h-3/5":"h-full"} w-full fixed lg:relative `}>
             <div className=" bg-black border-b-0.5 text-white p-4 text-lg"> Username of chatter </div>
             <div className=" flex-grow bg-black overflow-scroll no-scrollbar relative">
                 <div className=" ">

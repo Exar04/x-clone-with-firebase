@@ -83,7 +83,8 @@ export function AuthProvider({ children }) {
     };
 
     if (pending) {
-      return <div className=" bg-black w-screen h-screen flex justify-center items-center text-white font-mono" style={{animation: "", fontSize:'5vw'}}>
+      return <div className=" bg-black w-screen h-screen flex flex-col justify-center items-center text-white font-mono" style={{animation: "", fontSize:'5vw'}}>
+        <img className=" md:w-80 md:h-64 w-36 h-24" width={400} height={400} src="/CsphereLogo.png" />
         ConnectSphere
       </div>
     }
