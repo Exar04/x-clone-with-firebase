@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { createContext, useContext, useEffect, useState } from "react"
 import {auth, db} from "../config/firebase"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { addDoc, collection, serverTimestamp } from "firebase/firestore"
 import { useNavigate } from "react-router"
 
-const AuthContext = React.createContext()
+const AuthContext = createContext()
 
 export function useAuth() {
     return useContext(AuthContext)
@@ -29,6 +29,7 @@ export function AuthProvider({ children }) {
           createdAt: serverTimestamp(),
           followers: [],
           following: [],
+          conversationList:[],
           accountPrivate: false,
         });
         console.log("user created");
@@ -84,10 +85,11 @@ export function AuthProvider({ children }) {
 
     if (pending) {
       return <div className=" bg-black w-screen h-screen flex flex-col justify-center items-center text-white font-mono" style={{animation: "", fontSize:'5vw'}}>
-        <img className=" md:w-80 md:h-64 w-36 h-24" width={400} height={400} src="/CsphereLogo.png" />
+        <img className=" md:w-80 md:h-60 w-36 h-24" width={400} height={400} src="/CsphereLogo.png" />
         ConnectSphere
       </div>
     }
+
     return(
         <AuthContext.Provider value={value}>
             {children}

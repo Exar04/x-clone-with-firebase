@@ -50,7 +50,7 @@ export const router = createBrowserRouter([
         element: <Timeline />,
       },
       {
-        path: "home/messages",
+        path: "home/messages/:chatId",
         element: <Messages />,
       },
       {

@@ -4,8 +4,9 @@ import { usePostHandler } from "../hooks/postHandler";
 import { useLoggedInUserInfo, useUserHandler } from "../hooks/userHandler";
 
 export const ListOfPosts = (props) => {
-    const dos = props.listOfPosts.map(post =>
-        < SinglePost post={post}/>
+    const dos = props.listOfPosts.map((post, index) =>
+        < SinglePost key={post.id} post={post}/>
+        // <div key={post.id} className=" text-white"> wok {index}</div>
     )
     return (<div>{dos}</div>)
 }
@@ -54,7 +55,7 @@ function SinglePost(props) {
   }, [permanentUsernameOfLoggedInUser])
 
     return(
-        <div key={props.post.id} className="w-full h-fit border-b-0.5 text-white md:p-3 p-2  border-slate-600 flex-none">
+        <div className="w-full h-fit border-b-0.5 text-white md:p-3 p-2  border-slate-600 flex-none">
             <div className="flex items-center">
                 {
                     pfpImageUrl? <img src={pfpImageUrl} className=" md:w-12 md:h-12 w-10 h-10 rounded-full mr-4" /> :
