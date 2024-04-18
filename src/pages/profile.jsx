@@ -111,7 +111,7 @@ export function Profile(props) {
                             <div role={"button"} onClick={(e) => { clickedFollowButton() }} className={`${ (FollowButtonText === "Following")?"text-white ring-2 ring-pink-500 bg-black":"bg-white" } ml-9 mb-3 px-4 py-1 w-fit rounded-lg hover:bg-black hover:text-white hover:ring-2 hover:ring-pink-500 ring-inset transition duration-300 ease-in-out`}>
                                 {FollowButtonText}
                             </div>
-                            <div role={"button"} onClick={(e) => { forwardToChatOfUser( usernameInUrl )}} className={`bg-sky-300 ml-9 mb-3 px-4 py-1 w-fit rounded-lg hover:bg-black hover:text-white hover:ring-2 ring-sky-700 bg-gradient-to-r from-sky-400 to-sky-700 hover:from-sky-700 ring-inset transition duration-500 ease-in-out`} >
+                            <div role={"button"} onClick={(e) => { forwardToChatOfUser( userIdOfUserWeSearchedFor, usernameInUrl )}} className={`bg-sky-300 ml-9 mb-3 px-4 py-1 w-fit rounded-lg hover:bg-black hover:text-white hover:ring-2 ring-sky-700 bg-gradient-to-r from-sky-400 to-sky-700 hover:from-sky-700 ring-inset transition duration-500 ease-in-out`} >
                                 Message
                             </div>
                             </div>
