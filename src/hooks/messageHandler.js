@@ -33,6 +33,7 @@ export const useChatHandler = () => {
        console.log("it still went funcking down")
        const convoDocRef = await addDoc(collection(db, "conversations"), {
         messages:[],
+        usersInvolved: [permanentUsername, permanentUsernameOfLoggedInUser]
        })
        const convoDocId = convoDocRef.id;
 

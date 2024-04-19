@@ -1,4 +1,4 @@
-import { query, where, onSnapshot, collection, doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
+import { query, where, onSnapshot, collection, doc, updateDoc, arrayUnion, getDoc, serverTimestamp } from "firebase/firestore";
 import { createContext, useContext, useState, useEffect } from "react";
 import { db } from "../config/firebase";
 import { useLoggedInUserInfo } from "../hooks/userHandler";
@@ -93,6 +93,25 @@ export function ChatProvider({ children }) {
 
     useEffect(() => {
       getConversationList()
+
+      // this is used to make chat realtime
+        const queryMessages = query(conversationsCollectionRef);
+        var listOfMess = []
+        onSnapshot(queryMessages, (snapshot) => {
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            const convoid = doc.id;
+            listOfMess.push(convoid, data);
+          });
+          console.log("is owkr")
+          listOfMess.map((doc) => {
+            setAllChats((prevState) => ({
+              ...prevState,
+              [doc.convoid]: { ...doc.data },
+            }));
+            console.log(doc)
+          });
+        });
     }, [])
 
 
