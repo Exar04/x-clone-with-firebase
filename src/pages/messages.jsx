@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useAuth } from "../context/authContext"
 import { useChat } from "../context/chatContext"
 import { useChatHandler } from "../hooks/messageHandler"
-import { useLoggedInUserInfo } from "../hooks/userHandler"
+import { useLoggedInUserInfo, useUserHandler } from "../hooks/userHandler"
 
 export function Messages() {
     const { allChats, setAllChats, conversationList, getChatsOfChatId} = useChat()
@@ -19,8 +19,8 @@ export function Messages() {
     }, [IdOfOpenedChat])
 
     const listOfUsersDiv = conversationList.map((user, index) => 
-        <div key={index} role={"button"} onClick={() => {setIdOfOpenedChat(user.chatId); setNameOfOpenedChat(user.chatName)}} className="bg-black flex-none flex items-center  text-xl border-0.5 border-slate-600 hover:bg-slate-500 hover:ring-2 ring-white inset-1 rounded-xl text-white p-3 m-2 transition duration-300 ">
-            <div className="bg-gray-700 w-14 h-14 rounded-full"></div>
+        <div key={index} role={"button"} onClick={() => {setIdOfOpenedChat(user.chatId); setNameOfOpenedChat(user.chatName)}} className=" flex-none flex items-center  text-xl border-0.5 border-slate-600  bg-black hover:bg-sky-600 hover:ring-2 ring-sky-300 inset-1 rounded-xl text-white p-3 m-2 transition duration-500 ease-in-out ">
+            { user.profilePic? <img src={user.profilePic} className=" w-14 h-14 rounded-full"/>:<div className="bg-gray-700 w-14 h-14 rounded-full"></div>}
             <div className=" pl-3 ">
                 <div className=" font-bold">{user.chatName}</div>
                 {/* {/* <div className=" text-gray-400">{user.recentMessage}</div> */}
@@ -53,6 +53,7 @@ function Chat(props) {
     const { permanentUsernameOfLoggedInUser, userIdOfLoggedInUser } = useLoggedInUserInfo()
     const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
     const [isTextareaFocused, setIsTextareaFocused] = useState(false);
+    
 
     const [inputData, setInputData] = useState([])
     const inputRef = useRef()
@@ -98,7 +99,7 @@ function Chat(props) {
 
          <div className={`flex flex-col ${isKeyboardOpen? "h-3/5":"h-full"} w-full fixed lg:relative `}>
             <div className=" bg-black border-b-0.5 text-white p-4 text-lg flex items-center">
-                <img role={"button"} onClick={() => props.setIdOfOpenedChat(null)} className=" md:w-10 md:h-10 w-6 h-6 ml-2 hover:bg-zinc-800 rounded-full p-2" src="https://img.icons8.com/ios-filled/100/FFFFFF/back.png" alt="back" /> 
+                <img role={"button"} onClick={() => props.setIdOfOpenedChat(null)} className=" w-8 h-8 ml-2 hover:bg-zinc-800 rounded-full p-1 md:p-2" src="https://img.icons8.com/ios-filled/100/FFFFFF/back.png" alt="back" /> 
                 <div className=" ml-3">{props.NameOfOpenedChat}</div>
                   
             </div>

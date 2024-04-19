@@ -1,7 +1,7 @@
 import { query, where, onSnapshot, collection, doc, updateDoc, arrayUnion, getDoc, serverTimestamp } from "firebase/firestore";
 import { createContext, useContext, useState, useEffect } from "react";
 import { db } from "../config/firebase";
-import { useLoggedInUserInfo } from "../hooks/userHandler";
+import { useLoggedInUserInfo, useUserHandler } from "../hooks/userHandler";
 import { useAuth } from "./authContext";
 
 const ChatContext = createContext()
@@ -14,6 +14,7 @@ export function ChatProvider({ children }) {
 
     const { currentUser } = useAuth()
     const { permanentUsernameOfLoggedInUser, userIdOfLoggedInUser } = useLoggedInUserInfo()
+    const { getUser_Pfp_from_Username_Displayname } = useUserHandler()
     const chatCollectionRef = collection(db, "chats");
     const usersCollectionRef = collection(db, "users");
     const conversationsCollectionRef = collection(db, "conversations");
@@ -68,22 +69,39 @@ export function ChatProvider({ children }) {
       var listOfDocs = [];
       var unsubscribe;
       try {
-        const queryUser = query( usersCollectionRef, where("userId", "==", currentUser.uid))
+        const queryUser = query(
+          usersCollectionRef,
+          where("userId", "==", currentUser.uid)
+        );
 
-        unsubscribe =  onSnapshot(queryUser,(snapshot) => {
-           snapshot.forEach((doc) => {
-            const data = doc.data();
-            const userChats = data.conversationList
+        unsubscribe =  onSnapshot(queryUser, (snapshot) => {
+          snapshot.forEach((doc) => {
+            const userChats = doc.data().conversationList;
+            // const userChats = data.conversationList
             const id = doc.id;
-            listOfDocs.push( ...userChats );
-            console.log(userChats)
-          })
-           setConversationList(listOfDocs)
-          listOfDocs = [];
-        })
+            userChats.profilePic = ""
+            listOfDocs.push(...userChats)
+          });
+          Promise.all(listOfDocs.map((data, index) => {
+            return new Promise((resolve, reject) => {
+                getUser_Pfp_from_Username_Displayname(data.chatName, (pfpUrl) => {
+                    console.log(pfpUrl);
+                        listOfDocs[index].profilePic = pfpUrl;
+                    resolve();
+                });
+            });
+        })).then(() => {
+            // After all profilePic assignments are done, setConversationList
+            setConversationList(listOfDocs);
+            listOfDocs = [];
+        }).catch((error) => {
+            console.error(error);
+        });
+        });
       } catch (err) {
         console.error(err);
       }
+
 
       return () => {
         unsubscribe();
@@ -92,9 +110,10 @@ export function ChatProvider({ children }) {
 
     useEffect(() => {
       getConversationList()
+   }, [])
 
-      // this is used to make chat realtime
-        const queryMessages = query(conversationsCollectionRef);
+   useEffect(() => {
+        const queryMessages = query(conversationsCollectionRef, where("usersInvolved", "array-contains", permanentUsernameOfLoggedInUser));
         var listOfMess = []
         onSnapshot(queryMessages, (snapshot) => {
           snapshot.forEach((doc) => {
@@ -102,20 +121,16 @@ export function ChatProvider({ children }) {
             const convoid = doc.id;
             listOfMess.push({convoid, messages});
           });
-          console.log(listOfMess, "mess")
+
           listOfMess.map((doc) => {
             setAllChats((prevState) => ({
               ...prevState,
               [doc.convoid]: { messages: doc.messages },
-            }));
-              // console.log(doc.convoid)
-          });
-            console.log(allChats, "oriko")
+            }))
+          })
           listOfMess = []
         });
-    }, [])
-
-    useEffect(() => { console.log(allChats)},[allChats])
+   }, [permanentUsernameOfLoggedInUser])
 
 
     const value = {
