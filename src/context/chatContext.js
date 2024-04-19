@@ -29,16 +29,16 @@ export function ChatProvider({ children }) {
          messages: arrayUnion(objsss),
        })
 
-      setAllChats(prevState => ({
-            ...prevState,
-            [ChatId]: {
-                ...prevState[ChatId], 
-                messages: [
-                    ...(prevState[ChatId]?.messages || []),
-                    {userid: userIdOfLoggedInUser, username: permanentUsernameOfLoggedInUser, data: message}
-                ]
-            }
-        }));
+      // setAllChats(prevState => ({
+      //       ...prevState,
+      //       [ChatId]: {
+      //           ...prevState[ChatId], 
+      //           messages: [
+      //               ...(prevState[ChatId]?.messages || []),
+      //               {userid: userIdOfLoggedInUser, username: permanentUsernameOfLoggedInUser, data: message}
+      //           ]
+      //       }
+      //   }));
     }
 
     
@@ -50,7 +50,6 @@ export function ChatProvider({ children }) {
         if (!queryConvoSnapshot.empty) {
           // const doc = queryConvoSnapshot.docs[0];
           const data = queryConvoSnapshot.data();
-          console.log(data)
           setAllChats((prevState) => ({
             ...prevState,
             [ChatId]: { ...data },
@@ -99,20 +98,24 @@ export function ChatProvider({ children }) {
         var listOfMess = []
         onSnapshot(queryMessages, (snapshot) => {
           snapshot.forEach((doc) => {
-            const data = doc.data();
+            const messages = doc.data().messages;
             const convoid = doc.id;
-            listOfMess.push(convoid, data);
+            listOfMess.push({convoid, messages});
           });
-          console.log("is owkr")
+          console.log(listOfMess, "mess")
           listOfMess.map((doc) => {
             setAllChats((prevState) => ({
               ...prevState,
-              [doc.convoid]: { ...doc.data },
+              [doc.convoid]: { messages: doc.messages },
             }));
-            console.log(doc)
+              // console.log(doc.convoid)
           });
+            console.log(allChats, "oriko")
+          listOfMess = []
         });
     }, [])
+
+    useEffect(() => { console.log(allChats)},[allChats])
 
 
     const value = {

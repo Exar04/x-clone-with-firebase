@@ -52,6 +52,7 @@ function Chat(props) {
     const {sendMessageToServer, setAllChats, allChats} = useChat()
     const { permanentUsernameOfLoggedInUser, userIdOfLoggedInUser } = useLoggedInUserInfo()
     const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+    const [isTextareaFocused, setIsTextareaFocused] = useState(false);
 
     const [inputData, setInputData] = useState([])
     const inputRef = useRef()
@@ -101,12 +102,12 @@ function Chat(props) {
                 <div className=" ml-3">{props.NameOfOpenedChat}</div>
                   
             </div>
-            <div className=" flex-grow bg-black overflow-scroll no-scrollbar relative">
+            <div className=" flex-grow bg-black overflow-scroll no-scrollbar relative mb-2">
                 {divOfMessages}
             </div>
 
             <div className={`bg-black border-t-0.5 p-2 text-white flex items-center relative ${ isKeyboardOpen? "bottom-7": ""}`}>
-                <textarea ref={inputRef} onChange={(e) => {setInputData(e.target.value) }} className="w-full h-fit -3/4 rounded-full pl-6 md:pt-5 pt-2 bg-black border-0.5 outline-none border-slate-500"></textarea>
+                <textarea ref={inputRef} onFocus={() => { setIsTextareaFocused(true)}} onBlur={() => { setIsTextareaFocused(false)}} onChange={(e) => {setInputData(e.target.value) }} className={`w-full h-fit rounded-full pl-6 md:pt-5 ${ isTextareaFocused? "pt-5":""} bg-black border-0.5 outline-none border-slate-500 flex items-center`}></textarea>
                 <div role={"button"} onClick={() => sendMessage()} className=" absolute top-4.5 right-4 p-2 rounded-full hover:bg-zinc-800 transition duration-300">
                     <img className=" md:w-10 md:h-10 w-6 h-6" src="https://img.icons8.com/fluency/96/filled-sent.png" alt="filled-sent"/>
                 </div>

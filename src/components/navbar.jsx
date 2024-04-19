@@ -7,7 +7,7 @@ export function BottomNavBarForMobileView(props) {
     const [navBarLinks, setNavBarLinks] = useState([
         { id: 1, pagevar: "Timeline", link: "/home/timeline", icon: "https://img.icons8.com/material-sharp/96/FFFFFF/home.png" },
         { id: 2, pagevar: "Explore", link: "home/explore", icon: "https://img.icons8.com/ios-glyphs/90/FFFFFF/search--v1.png" },
-        { id: 3, pagevar: "Messages", link: "home/messages", icon: "https://img.icons8.com/ios-glyphs/90/FFFFFF/messaging-.png" },
+        { id: 3, pagevar: "Messages", link: "home/messages/0", icon: "https://img.icons8.com/ios-glyphs/90/FFFFFF/messaging-.png" },
         { id: 4, pagevar: "Notification", link: "home/notification", icon: "https://img.icons8.com/fluency-systems-filled/96/FFFFFF/appointment-reminders.png" },
         // { id: 5, pagevar: "ExtraHiddenOne", link: "", icon: "" }
         // { id: 5, pagevar: "Drafts", link: "home/draft", icon: "https://img.icons8.com/pastel-glyph/64/FFFFFF/edit-file--v1.png" }
